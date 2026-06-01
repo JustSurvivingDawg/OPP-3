@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OPP III · Question Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#efe7d6; --bg2:#e7dcc6;
+  --surface:#fbf7ee; --surface-2:#f5eede;
+  --ink:#20302d; --ink-soft:#42514d; --muted:#7a857f;
+  --line:#e3d8c2;
+  --primary:#0e5057; --primary-2:#13727a; --primary-ink:#fbf7ee;
+  --accent:#df9a2c; --accent-2:#c1761f;
+  --correct:#1f7d63; --correct-bg:#e2efe7; --correct-line:#9ecbb6;
+  --wrong:#b14a2a; --wrong-bg:#f6e5da; --wrong-line:#e0a589;
+  --bone:#f3ecda; --bone-line:#d8c9a6;
+  --shadow:0 18px 40px -22px rgba(20,45,40,.45);
+  --shadow-sm:0 6px 18px -12px rgba(20,45,40,.5);
+  --radius:18px;
+  --gold:#e9b84a;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Hanken Grotesk',system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(19,114,122,.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(223,154,44,.16), transparent 55%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  background-attachment:fixed;
+  min-height:100vh;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 20px 80px;}
+
+/* ---------- HEADER ---------- */
+header.app{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:var(--primary-ink);
+  border-radius:24px;padding:20px 26px;box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+header.app::after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 14px,transparent 14px 28px);
+  pointer-events:none;
+}
+.brand{display:flex;align-items:center;gap:18px;flex:1 1 320px;z-index:1;}
+.title-block h1{
+  font-family:'Fraunces',serif;font-weight:600;letter-spacing:.2px;
+  font-size:clamp(1.5rem,3vw,2.2rem);margin:0;line-height:1.05;
+}
+.title-block p{margin:4px 0 0;font-size:.92rem;opacity:.86;max-width:46ch;}
+.kicker{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;opacity:.8;font-weight:700;}
+
+/* mascot bone */
+.mascot{width:84px;height:84px;flex:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25));transform-origin:50% 70%;animation:wiggle 2.6s ease-in-out infinite;}
+.mascot:hover{animation:spin .7s ease;}
+@keyframes wiggle{0%,100%{transform:rotate(-9deg) translateY(0)}25%{transform:rotate(6deg) translateY(-4px)}50%{transform:rotate(-4deg) translateY(0)}75%{transform:rotate(8deg) translateY(-3px)}}
+@keyframes spin{100%{transform:rotate(360deg)}}
+.mascot .eye{animation:blink 4s infinite;transform-origin:center;}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+
+/* stat chips */
+.stats{display:flex;gap:10px;flex-wrap:wrap;z-index:1;}
+.stat{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  border-radius:14px;padding:8px 13px;min-width:74px;text-align:center;backdrop-filter:blur(3px);
+}
+.stat .v{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;line-height:1;}
+.stat .l{font-size:.62rem;text-transform:uppercase;letter-spacing:.13em;opacity:.85;margin-top:3px;}
+.lives{letter-spacing:2px;}
+
+/* ---------- LAYOUT ---------- */
+.layout{display:grid;grid-template-columns:296px 1fr;gap:22px;margin-top:22px;align-items:start;}
+@media(max-width:900px){.layout{grid-template-columns:1fr;}}
+
+aside{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px;}
+@media(max-width:900px){aside{position:static;}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);}
+.card-pad{padding:16px 16px;}
+
+.side-h{font-family:'Fraunces',serif;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin:2px 4px 8px;}
+.lec-btn{
+  width:100%;text-align:left;border:1px solid transparent;background:transparent;cursor:pointer;
+  border-radius:13px;padding:10px 12px;display:flex;gap:11px;align-items:center;color:var(--ink);
+  font-family:inherit;font-size:.9rem;transition:.16s;margin-bottom:3px;
+}
+.lec-btn:hover{background:var(--surface-2);}
+.lec-btn.active{background:var(--primary);color:var(--primary-ink);box-shadow:var(--shadow-sm);}
+.lec-btn.active .lec-prog{color:rgba(255,255,255,.85);}
+.lec-num{
+  flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font-weight:700;font-size:.78rem;background:var(--surface-2);color:var(--primary);border:1px solid var(--line);
+}
+.lec-btn.active .lec-num{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.25);}
+.lec-meta{flex:1;min-width:0;}
+.lec-title{font-weight:600;line-height:1.15;}
+.lec-prog{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;opacity:0;}
+.lec-btn.done .dot{opacity:1;background:var(--correct);}
+
+/* controls */
+.ctrl-row{display:flex;flex-direction:column;gap:9px;}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.88rem;font-weight:600;}
+.switch{position:relative;width:44px;height:24px;flex:none;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:var(--line);border-radius:20px;transition:.2s;cursor:pointer;}
+.slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.switch input:checked+.slider{background:var(--accent);}
+.switch input:checked+.slider::before{transform:translateX(20px);}
+.btn{
+  font-family:inherit;font-weight:600;font-size:.85rem;cursor:pointer;border-radius:11px;
+  padding:9px 12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);transition:.15s;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent-2);}
+.btn.primary{background:var(--primary);color:var(--primary-ink);border-color:var(--primary);}
+.btn.primary:hover{background:var(--primary-2);color:#fff;}
+.btn.warn{color:var(--wrong);}
+.btn.warn:hover{border-color:var(--wrong);background:var(--wrong-bg);}
+.btn.full{width:100%;text-align:center;}
+.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* progress bar */
+.pbar{height:9px;background:var(--surface-2);border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+.pbar > span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-2));width:0;transition:width .4s;}
+.pbar-label{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-bottom:6px;}
+
+/* did you know */
+.dyk{background:linear-gradient(135deg,#fff6e6,#fdeecd);border:1px solid var(--bone-line);}
+.dyk .side-h{color:var(--accent-2);}
+.dyk p{margin:0;font-size:.86rem;color:var(--ink-soft);min-height:3.2em;}
+.dyk .fact-actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.dyk small{color:var(--muted);font-size:.7rem;}
+
+/* achievements */
+.ach-list{display:flex;flex-direction:column;gap:7px;max-height:230px;overflow:auto;}
+.ach{display:flex;gap:10px;align-items:center;padding:7px 9px;border-radius:11px;background:var(--surface-2);border:1px solid var(--line);opacity:.5;transition:.2s;}
+.ach.got{opacity:1;background:linear-gradient(135deg,#fff,#f3f8f4);border-color:var(--correct-line);}
+.ach .ico{font-size:1.2rem;flex:none;}
+.ach .a-t{font-weight:700;font-size:.82rem;line-height:1.1;}
+.ach .a-d{font-size:.7rem;color:var(--muted);}
+
+/* ---------- MAIN ---------- */
+main{min-width:0;display:flex;flex-direction:column;gap:18px;}
+.lec-head{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+.lec-head::before{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(223,154,44,.18),transparent 70%);}
+.lec-tag{display:inline-block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--accent-2);background:#fbeacb;border:1px solid var(--bone-line);padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.lec-tag.review{color:var(--primary);background:#dceef0;border-color:#bfe0e2;}
+.lec-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.4rem,2.6vw,2rem);margin:0 0 6px;line-height:1.08;}
+.lec-head p.blurb{margin:0;color:var(--ink-soft);max-width:70ch;font-size:.95rem;}
+.lec-head .mini-stats{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap;}
+.lec-head .ms{font-size:.8rem;color:var(--muted);}
+.lec-head .ms b{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--primary);font-weight:600;}
+
+.obj{margin-top:4px;}
+.obj-h{display:flex;gap:11px;align-items:flex-start;margin:26px 2px 12px;}
+.obj-h .oi{flex:none;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;font-weight:800;font-size:.78rem;display:grid;place-items:center;margin-top:1px;}
+.obj-h .ot{font-family:'Fraunces',serif;font-size:1.02rem;font-weight:600;color:var(--ink);line-height:1.25;}
+
+/* question card */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+.q-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px;}
+.q-stem{font-size:1rem;font-weight:500;color:var(--ink);line-height:1.5;}
+.diff{flex:none;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;padding:4px 9px;border-radius:20px;white-space:nowrap;}
+.diff.Foundational{background:#dceef0;color:#0c5b62;}
+.diff.Multi-step{background:#fbeacb;color:#9b5b14;}
+.diff.High-yield{background:#f6dfd5;color:#a8401f;}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.opt{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:.93rem;color:var(--ink);transition:.13s;line-height:1.4;}
+.opt:hover:not(:disabled){border-color:var(--primary);background:#fff;}
+.opt:disabled{cursor:default;}
+.opt .ltr{flex:none;width:24px;height:24px;border-radius:7px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.8rem;color:var(--primary);}
+.opt.correct{background:var(--correct-bg);border-color:var(--correct-line);}
+.opt.correct .ltr{background:var(--correct);color:#fff;border-color:var(--correct);}
+.opt.wrong{background:var(--wrong-bg);border-color:var(--wrong-line);}
+.opt.wrong .ltr{background:var(--wrong);color:#fff;border-color:var(--wrong);}
+.opt.dim{opacity:.6;}
+.exp{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:.9rem;line-height:1.55;display:none;}
+.exp.show{display:block;}
+.exp.ok{background:var(--correct-bg);border:1px solid var(--correct-line);}
+.exp.no{background:var(--wrong-bg);border:1px solid var(--wrong-line);}
+.exp b{font-family:'Fraunces',serif;}
+.exp .verdict{font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;display:block;margin-bottom:4px;}
+.exp.ok .verdict{color:var(--correct);}
+.exp.no .verdict{color:var(--wrong);}
+.q.answered-correct{border-color:var(--correct-line);}
+.q.answered-wrong{border-color:var(--wrong-line);}
+.q-edit{font-size:.72rem;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;margin-top:10px;font-family:inherit;}
+.q-edit:hover{color:var(--accent-2);}
+
+/* nav */
+.lec-nav{display:flex;justify-content:space-between;gap:12px;margin-top:6px;}
+.points-pop{position:fixed;pointer-events:none;font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:var(--accent-2);z-index:90;animation:floatup 1s ease-out forwards;}
+@keyframes floatup{0%{opacity:0;transform:translateY(8px) scale(.8)}20%{opacity:1}100%{opacity:0;transform:translateY(-40px) scale(1.1)}}
+
+/* toast */
+#toast-wrap{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;gap:9px;z-index:120;align-items:center;}
+.toast{background:var(--ink);color:#fff;padding:11px 18px;border-radius:13px;box-shadow:var(--shadow);font-size:.88rem;font-weight:600;display:flex;gap:9px;align-items:center;animation:tin .3s ease;max-width:90vw;}
+.toast .ti{font-size:1.1rem;}
+.toast.gold{background:linear-gradient(135deg,#b9821f,#e0a82e);}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(20,30,28,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:200;padding:18px;}
+.modal-bg.show{display:flex;}
+.modal{background:var(--surface);border-radius:20px;max-width:560px;width:100%;box-shadow:var(--shadow);max-height:88vh;overflow:auto;border:1px solid var(--line);}
+.modal-h{padding:18px 22px;border-bottom:1px solid var(--line);font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+.modal-b{padding:18px 22px;}
+.modal-b label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:12px 0 5px;}
+.modal-b input,.modal-b textarea,.modal-b select{width:100%;font-family:inherit;font-size:.92rem;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);}
+.modal-b textarea{resize:vertical;min-height:64px;}
+.opt-edit{display:flex;gap:8px;align-items:center;margin-bottom:6px;}
+.opt-edit input[type=radio]{width:auto;flex:none;}
+.modal-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;}
+.x{cursor:pointer;border:none;background:none;font-size:1.3rem;color:var(--muted);line-height:1;}
+.muted{color:var(--muted);font-size:.82rem;}
+.edit-banner{display:none;background:var(--accent);color:#fff;text-align:center;font-weight:700;font-size:.82rem;padding:7px;border-radius:10px;margin-bottom:8px;}
+.edit-banner.show{display:block;}
+footer.fin{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px;line-height:1.6;}
+.kbd{font-family:monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:.78rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app">
+    <div class="brand">
+      <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true">
+        <g fill="var(--bone)" stroke="var(--bone-line)" stroke-width="2">
+          <circle cx="24" cy="30" r="13"/><circle cx="38" cy="24" r="13"/>
+          <circle cx="76" cy="70" r="13"/><circle cx="62" cy="76" r="13"/>
+          <rect x="28" y="28" width="44" height="20" rx="10" transform="rotate(45 50 50)"/>
+        </g>
+        <g fill="#20302d">
+          <circle class="eye" cx="40" cy="40" r="2.6"/><circle class="eye" cx="49" cy="44" r="2.6"/>
+        </g>
+        <path d="M40 50 Q46 55 53 50" stroke="#20302d" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="title-block">
+        <div class="kicker">Osteopathic Principles &amp; Practice III</div>
+        <h1>OPP III Question Bank</h1>
+        <p id="sub-line">New OPP III lectures &amp; OPP I/II comprehensive review</p>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="card card-pad">
+        <div class="pbar-label"><span>Overall progress</span><span id="overall-pct">0%</span></div>
+        <div class="pbar"><span id="overall-bar"></span></div>
+        <div class="ctrl-row" style="margin-top:14px;">
+          <div class="toggle">Fast mode
+            <label class="switch"><input type="checkbox" id="fast"><span class="slider"></span></label>
+          </div>
+          <button class="btn full" id="review-btn">⟳ Review incorrect (<span id="wrong-count">0</span>)</button>
+          <div class="btn-grid">
+            <button class="btn" id="edit-toggle">✎ Edit mode</button>
+            <button class="btn" id="add-q-btn">＋ Add</button>
+          </div>
+          <div class="btn-grid">
+            <button class="btn" id="download-btn">⤓ Download</button>
+            <button class="btn warn" id="reset-btn">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="side-h">Lectures</div>
+        <div id="lec-list-new"></div>
+        <div class="side-h" style="margin-top:14px;">Comprehensive Review</div>
+        <div id="lec-list-review"></div>
+      </div>
+
+      <div class="card card-pad dyk">
+        <div class="side-h">🦴 Did you know?</div>
+        <p id="dyk-text"></p>
+        <div class="fact-actions"><small id="dyk-count"></small><button class="btn" id="dyk-next">Next fact →</button></div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="side-h">Achievements</div>
+        <div class="ach-list" id="ach-list"></div>
+      </div>
+    </aside>
+
+    <main id="main"></main>
+  </div>
+
+  <footer class="fin">
+    Self-contained study tool · progress saved locally in your browser ·
+    keyboard: <span class="kbd">←</span>/<span class="kbd">→</span> change lecture, <span class="kbd">1–5</span> answer.<br>
+    Content is for exam preparation only — always defer to your course instructor's material.
+  </footer>
+</div>
+
+<div id="toast-wrap"></div>
+
+<!-- Edit / Add modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-h"><span id="modal-title">Edit question</span><button class="x" data-close>×</button></div>
+    <div class="modal-b">
+      <label>Lecture</label>
+      <select id="m-lec"></select>
+      <label>Objective</label>
+      <select id="m-obj"></select>
+      <label>Question stem</label>
+      <textarea id="m-stem"></textarea>
+      <label>Difficulty</label>
+      <select id="m-diff">
+        <option>Foundational</option><option>Multi-step</option><option>High-yield</option>
+      </select>
+      <label>Options (select the correct one)</label>
+      <div id="m-opts"></div>
+      <button class="btn" id="m-add-opt" style="margin-top:6px;">＋ Add option</button>
+      <label>Explanation</label>
+      <textarea id="m-exp"></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="btn warn" id="m-delete" style="margin-right:auto;display:none;">Delete</button>
+      <button class="btn" data-close>Cancel</button>
+      <button class="btn primary" id="m-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset modal -->
+<div class="modal-bg" id="reset-modal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-h"><span>Reset options</span><button class="x" data-rclose>×</button></div>
+    <div class="modal-b">
+      <p class="muted">Choose what to clear. This cannot be undone.</p>
+      <button class="btn full" id="reset-progress" style="margin-bottom:9px;">Reset progress &amp; score only <span class="muted">(keep edited questions)</span></button>
+      <button class="btn full warn" id="reset-all">Reset everything <span class="muted">(progress + custom questions)</span></button>
+    </div>
+    <div class="modal-foot"><button class="btn" data-rclose>Cancel</button></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   OPP III — Question Bank
+   Difficulty tags: "Foundational" | "Multi-step" | "High-yield"
+   ans = index of correct option (0-based)
+   ============================================================ */
+window.QUIZ_DATA = {
+  course: "Osteopathic Principles & Practice III",
+  subtitle: "OPP III Comprehensive Exam Prep · New lectures + OPP I & II review",
+  lectures: [
+
+  /* ===================== NEW LECTURE 1 ===================== */
+  {
+    id: "L1", num: 1, group: "new",
+    title: "Entrapment Neuropathies & Thoracic HVLA",
+    blurb: "Etiology and presentation of upper- and lower-extremity entrapment neuropathies, plus diagnosis and HVLA of the thoracic spine.",
+    objectives: [
+      {
+        text: "Identify the three classes of nerve injury and how entrapment neuropathies are evaluated.",
+        questions: [
+          { id:"L1Q1", diff:"Foundational",
+            stem:"A peripheral nerve injury damages only the myelin sheath, leaving the axon and connective tissue intact, with the expectation of full recovery. This best describes:",
+            opts:["Neurapraxia","Axonotmesis","Neurotmesis","Wallerian degeneration"],
+            ans:0,
+            exp:"Neurapraxia is the mildest injury — only the myelin coat is affected. Axonotmesis adds axonal disruption (regrowth still occurs); neurotmesis disrupts myelin, axon, and connective tissue, so no regrowth occurs." },
+          { id:"L1Q2", diff:"Foundational",
+            stem:"Which study is described as the most effective test for confirming and localizing an entrapment neuropathy?",
+            opts:["Plain radiographs","Nerve conduction studies with electromyography","CT angiography","Bone scan"],
+            ans:1,
+            exp:"Entrapment neuropathies are usually diagnosed clinically, but nerve conduction studies and EMG are the most effective confirmatory tests. Imaging is used mainly to identify the source of compression (fluid, muscle, ligament, tendon)." },
+          { id:"L1Q3", diff:"Multi-step",
+            stem:"A severe laceration completely transects a nerve, disrupting the myelin, axon, AND surrounding connective tissue. What is the expected outcome without surgical repair?",
+            opts:["Complete spontaneous regrowth","Partial regrowth over weeks","No regrowth","Immediate remyelination only"],
+            ans:2,
+            exp:"This is neurotmesis — the most severe injury. Because the connective tissue scaffold is destroyed along with the axon and myelin, no spontaneous regrowth occurs." }
+        ]
+      },
+      {
+        text: "Identify the etiology and clinical presentation of upper-extremity entrapment neuropathies.",
+        questions: [
+          { id:"L1Q4", diff:"High-yield",
+            stem:"A 42-year-old gamer has aching proximal volar forearm pain with numbness of the thumb, index, and middle fingers — INCLUDING the thenar eminence — worsened by repetitive pronation. Which condition is most likely?",
+            opts:["Carpal tunnel syndrome","Pronator teres syndrome","Guyon's canal syndrome","Cubital tunnel syndrome"],
+            ans:1,
+            exp:"Median nerve compression at the pronator teres (proximal) involves the thenar eminence and worsens with pronation. Carpal tunnel (distal) spares the thenar eminence because the palmar cutaneous branch arises proximal to the tunnel." },
+          { id:"L1Q5", diff:"High-yield",
+            stem:"A computer programmer has 2 years of night pain and numbness of digits 1–3 that SPARES the thenar eminence, with a positive flick sign. The most specific finding points to compression at which site?",
+            opts:["Spiral groove","Cubital tunnel","Carpal tunnel","Suprascapular notch"],
+            ans:2,
+            exp:"Carpal tunnel syndrome causes median symptoms in the first three digits while SPARING thenar-eminence sensation. The flick sign is the most specific finding; Tinel's, Phalen's, and reverse Phalen's are also used. Treatment can include transverse carpal ligament release." },
+          { id:"L1Q6", diff:"Multi-step",
+            stem:"A patient cannot make a normal 'OK' sign — the tips of the thumb and index finger won't oppose into a round 'O.' Which median-nerve syndrome is most consistent?",
+            opts:["Carpal tunnel syndrome","Anterior interosseous syndrome","Ligament of Struthers entrapment","Pronator teres syndrome"],
+            ans:1,
+            exp:"Anterior interosseous syndrome causes weakness of the FPL and FDP to the index finger, producing inability to form a proper 'O' (pinch). It is a motor syndrome without sensory loss." },
+          { id:"L1Q7", diff:"High-yield",
+            stem:"A patient has a positive Froment's sign, cannot adduct the small finger, and shows a claw hand at rest. The most common site of compression is:",
+            opts:["The wrist (carpal tunnel)","The elbow (cubital tunnel)","The axilla","The spiral groove"],
+            ans:1,
+            exp:"These are ulnar nerve findings (hand intrinsics + dorsal sensation of digits 4–5). The ulnar nerve is most commonly compressed at the elbow (cubital tunnel), and less often at the wrist (Guyon's canal). Refractory cases may need surgical decompression." },
+          { id:"L1Q8", diff:"Multi-step",
+            stem:"A man falls asleep with his arm draped over a chair ('Saturday night palsy') and wakes with wrist drop. Which nerve was compressed, and where?",
+            opts:["Median nerve at the carpal tunnel","Ulnar nerve at Guyon's canal","Radial nerve at the spiral groove/axilla","Axillary nerve at the surgical neck"],
+            ans:2,
+            exp:"The radial nerve (triceps, brachioradialis, wrist/finger extensors) is compressed at the spiral groove, proximal forearm, or axilla (e.g., crutches). Loss of extensors produces wrist drop. Treatment is to eliminate the aggravating factor." },
+          { id:"L1Q9", diff:"Foundational",
+            stem:"A shoulder dislocation injures the nerve to the deltoid and teres minor with numbness over the lateral shoulder. Which nerve is affected, and which artery commonly travels with it?",
+            opts:["Suprascapular nerve; suprascapular artery","Axillary nerve; posterior humeral circumflex artery","Musculocutaneous nerve; brachial artery","Radial nerve; profunda brachii artery"],
+            ans:1,
+            exp:"The axillary nerve (deltoid, teres minor, lateral shoulder sensation) is commonly injured by humeral fracture or dislocation and travels with the posterior humeral circumflex artery through the quadrangular space." },
+          { id:"L1Q10", diff:"Multi-step",
+            stem:"After a prolonged surgery under general anesthesia, a patient has weakness of elbow flexion and numbness of the lateral forearm. Which nerve was most likely compressed by malpositioning?",
+            opts:["Musculocutaneous nerve","Dorsal scapular nerve","Suprascapular nerve","Median nerve"],
+            ans:0,
+            exp:"The musculocutaneous nerve innervates the coracobrachialis, biceps, and brachialis (elbow flexion) and supplies lateral forearm sensation. It is classically compressed by malpositioning during anesthesia." },
+          { id:"L1Q11", diff:"Foundational",
+            stem:"A patient develops scapular winging with weakness of the rhomboids and levator scapulae. Which nerve is implicated?",
+            opts:["Long thoracic nerve","Dorsal scapular nerve","Spinal accessory nerve","Suprascapular nerve"],
+            ans:1,
+            exp:"The dorsal scapular nerve innervates the rhomboids and levator scapulae; entrapment (often microtrauma/hypertrophy) contributes to scapular winging. (Long thoracic → serratus anterior winging is the other classic cause.)" }
+        ]
+      },
+      {
+        text: "Identify the etiology and clinical presentation of lower-extremity entrapment neuropathies.",
+        questions: [
+          { id:"L1Q12", diff:"High-yield",
+            stem:"A UFC fighter takes repeated calf kicks and now has ecchymosis over the lateral proximal lower leg near the fibular head and difficulty walking. Which nerve is compressed and which deficit is expected?",
+            opts:["Tibial nerve; difficulty toe-walking","Peroneal (fibular) nerve; difficulty heel-walking","Tibial nerve; difficulty heel-walking","Peroneal nerve; difficulty toe-walking"],
+            ans:1,
+            exp:"The common peroneal nerve wraps the fibular head and is compressed there. Loss of dorsiflexion (foot drop) makes HEEL-walking difficult. The tibial nerve controls plantar flexion, so its injury impairs TOE-walking." },
+          { id:"L1Q13", diff:"Multi-step",
+            stem:"A woman in heels who is constantly on her feet has burning web-space pain with paresthesias between the 2nd–3rd metatarsals and a palpable clicking mass. The most likely diagnosis is:",
+            opts:["Deep peroneal entrapment (anterior tarsal tunnel)","Superficial peroneal entrapment","Morton neuroma","Tibial neuropathy at the tarsal tunnel"],
+            ans:2,
+            exp:"Morton neuroma is an interdigital nerve problem presenting with web-space pain, paresthesias worsened by walking/tight shoes, and a palpable clicking mass (Mulder sign)." },
+          { id:"L1Q14", diff:"Foundational",
+            stem:"An obese patient with a heavy tool belt develops burning numbness over the anterolateral thigh with no motor loss. The entrapped nerve and eponym are:",
+            opts:["Femoral nerve; femoral neuralgia","Lateral femoral cutaneous nerve; meralgia paresthetica","Obturator nerve; Howship–Romberg","Superior cluneal nerve; cluneal syndrome"],
+            ans:1,
+            exp:"Meralgia paresthetica is entrapment of the lateral femoral cutaneous nerve beneath the inguinal ligament (tight clothing/belts, obesity). It is purely sensory to the anterolateral thigh; treatment emphasizes weight loss." },
+          { id:"L1Q15", diff:"Multi-step",
+            stem:"A patient has right buttock pain radiating down the posterior thigh, reproduced by flexion–adduction–internal rotation of the hip, with a hip preference for external rotation. This best fits:",
+            opts:["Hamstring syndrome","Piriformis syndrome (sciatic compression)","Superior cluneal nerve entrapment","Tarsal tunnel syndrome"],
+            ans:1,
+            exp:"Piriformis syndrome compresses the sciatic nerve, causing pain down the thigh toward the knee, a hip preference for external rotation, and reproduction with FAIR positioning. Treatment emphasizes stretching. Hamstring syndrome instead features the triad of pain with sitting, pain with resisted knee flexion at 90° hip flexion, and ischial-tuberosity tenderness." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== NEW LECTURE 2 ===================== */
+  {
+    id: "L2", num: 2, group: "new",
+    title: "Ribs I — Anatomy, Motion & Counterstrain",
+    blurb: "True vs false and typical vs atypical ribs, muscles of respiration, the three rib motions, and characteristics of inhaled vs exhaled ribs.",
+    objectives: [
+      {
+        text: "Differentiate true vs false ribs and typical vs atypical ribs.",
+        questions: [
+          { id:"L2Q1", diff:"Foundational",
+            stem:"A rib attaches to the sternum directly via its OWN costal cartilage. This rib belongs to which group?",
+            opts:["Floating ribs","False ribs","True ribs","Atypical ribs"],
+            ans:2,
+            exp:"True ribs (1–7) attach to the sternum directly through their own costal cartilage. False ribs (8–10) attach via the cartilage of the rib above; floating ribs (11–12) have no anterior attachment." },
+          { id:"L2Q2", diff:"Foundational",
+            stem:"Which set of ribs is classified as ATYPICAL?",
+            opts:["Ribs 3–9","Ribs 1, 2, 10, 11, 12","Ribs 1–7","Ribs 8–10"],
+            ans:1,
+            exp:"Typical ribs are 3–9; atypical ribs are 1, 2, 10, 11, and 12. Typical ribs have a head that articulates with two vertebrae (its own level and the one above) plus a tubercle at the costotransverse junction." },
+          { id:"L2Q3", diff:"Multi-step",
+            stem:"A typical rib's head articulates with how many vertebrae, and what is the tubercle's articulation?",
+            opts:["One vertebra; articulates with the spinous process","Two vertebrae; tubercle articulates with the transverse process (costotransverse joint)","Three vertebrae; tubercle articulates with the body","One vertebra; no tubercle present"],
+            ans:1,
+            exp:"A typical rib head articulates with its own vertebra and the one above (e.g., rib 4 with T4 and T3). The tubercle, at the neck–body junction, articulates with the transverse process at the costotransverse joint." },
+          { id:"L2Q4", diff:"Foundational",
+            stem:"Which rib is the broadest and most sharply curved, articulating ONLY with T1?",
+            opts:["Rib 1","Rib 2","Rib 10","Rib 12"],
+            ans:0,
+            exp:"Rib 1 is the broadest and most sharply curved and articulates only with T1. Rib 2 is longer/thinner and articulates with both T1 and T2 and is the site of serratus anterior (and posterior) attachments." }
+        ]
+      },
+      {
+        text: "Identify the muscles of respiration.",
+        questions: [
+          { id:"L2Q5", diff:"Foundational",
+            stem:"Which muscle is the PRIMARY muscle of quiet inspiration?",
+            opts:["External intercostals","Diaphragm","Internal intercostals","Scalenes"],
+            ans:1,
+            exp:"The diaphragm is the primary muscle of inspiration. The external intercostals assist inspiration; accessory inspiratory muscles include the scalenes, SCM, pectoralis minor, and serratus anterior." },
+          { id:"L2Q6", diff:"Multi-step",
+            stem:"A spinal cord injury impairs the muscles primarily responsible for FORCED expiration. Which muscle is most likely affected?",
+            opts:["Diaphragm","External intercostals","Internal intercostals","Scalenes"],
+            ans:2,
+            exp:"Quiet expiration is passive. Forced expiration is driven by the internal intercostals and the abdominal muscles. The diaphragm and external intercostals are inspiratory." }
+        ]
+      },
+      {
+        text: "Differentiate pump-handle, bucket-handle, and caliper motion of the ribs.",
+        questions: [
+          { id:"L2Q7", diff:"Foundational",
+            stem:"Which ribs are described as predominantly PUMP-handle, and what diameter do they increase?",
+            opts:["Ribs 6–10; transverse diameter","Ribs 2–5; anterior–posterior diameter","Ribs 11–12; both diameters","Ribs 1; vertical diameter only"],
+            ans:1,
+            exp:"Pump-handle ribs (2–5) increase the anterior–posterior diameter; the anterior (sternochondral) end moves superiorly on inhalation. Bucket-handle ribs (6–10) increase the transverse diameter at the mid-axillary line. Caliper ribs (11–12) increase both slightly." },
+          { id:"L2Q8", diff:"Multi-step",
+            stem:"An examiner reports the patient's ribs showed normal A–P movement and the A–P diameter of the thorax increased. This is most consistent with which motion?",
+            opts:["Pump handle","Bucket handle","Caliper","No rib motion"],
+            ans:0,
+            exp:"Increasing the anterior–posterior diameter is the hallmark of pump-handle motion (most prominent in ribs 2–5). Remember all ribs exhibit all motions to varying degrees." },
+          { id:"L2Q9", diff:"Foundational",
+            stem:"Caliper motion is the predominant motion of which ribs?",
+            opts:["Ribs 2–5","Ribs 6–10","Ribs 11 and 12","Rib 1 only"],
+            ans:2,
+            exp:"Caliper motion predominates in ribs 11 and 12 (the floating ribs), producing slight increases in both the A–P and transverse dimensions." }
+        ]
+      },
+      {
+        text: "Identify the characteristics of inhaled and exhaled ribs and diagnose/treat rib somatic dysfunction with counterstrain.",
+        questions: [
+          { id:"L2Q10", diff:"High-yield",
+            stem:"A patient reports sharp, pin-prick pain near the costosternal junction that worsens during INHALATION. Naming for the position of ease, the diagnosis is:",
+            opts:["Pump-handle inhalation dysfunction","Bucket-handle inhalation dysfunction","Pump-handle EXHALATION dysfunction","Caliper rib dysfunction"],
+            ans:2,
+            exp:"Always name a rib for its position of ease. Pain on INHALATION means the rib does not want to inhale → it is an EXHALATION dysfunction. The sharp, pin-prick pain at the costosternal junction localizes a pump-handle rib." },
+          { id:"L2Q11", diff:"Multi-step",
+            stem:"On exam, the right rib 1 moves superiorly during inhalation but FAILS to move inferiorly during exhalation. The most accurate diagnosis is:",
+            opts:["Right rib 1 exhalation dysfunction","Right rib 1 inhalation dysfunction","Left rib 1 inhalation dysfunction","Right bucket-handle dysfunction"],
+            ans:1,
+            exp:"A rib stuck UP (moves up freely on inhalation, won't come down on exhalation) is held in inhalation → it is an INHALATION dysfunction. It may also appear elevated compared to the opposite side." },
+          { id:"L2Q12", diff:"Multi-step",
+            stem:"Bucket-handle rib dysfunctions characteristically produce what kind of pain and where?",
+            opts:["Sharp, pin-prick pain at the costosternal/costotransverse junctions","Aching, regional pain at the mid-axillary line","Pain only with caliper motion at the floating ribs","No pain; purely a static finding"],
+            ans:1,
+            exp:"Bucket-handle dysfunctions cause aching/regional pain at the mid-axillary line (their region of greatest motion). Pump-handle dysfunctions cause sharp, pin-prick pain at the anterior/posterior attachments." },
+          { id:"L2Q13", diff:"Foundational",
+            stem:"Sharp, pinpoint pain localized precisely at rib 1 is most consistent with which rib motion dysfunction?",
+            opts:["Bucket handle","Pump handle","Caliper","Both bucket and caliper"],
+            ans:1,
+            exp:"Sharp, pinpoint (pin-prick) pain points to a pump-handle dysfunction, and rib 1 behaves as a pump-handle rib. Bucket-handle pain is aching and regional at the mid-axillary line." },
+          { id:"L2Q14", diff:"Multi-step",
+            stem:"A rib exhalation dysfunction (rib stuck DOWN) on a pump-handle rib would static-palpate as:",
+            opts:["Anterior end prominent and elevated; widened intercostal space above","Anterior end depressed; the rib may appear lower than its pair","Lateral shaft elevated at the mid-axillary line","No change from the contralateral rib"],
+            ans:1,
+            exp:"An exhaled (stuck-down) rib sits inferior to its pair; it moves inferiorly on exhalation but resists rising on inhalation. The inhaled (stuck-up) rib shows the opposite — prominent, elevated anterior end." },
+          { id:"L2Q15", diff:"Foundational",
+            stem:"Counterstrain treatment of a tender point classically involves which key principle?",
+            opts:["Repeated isometric contractions against resistance","Holding the position of ease for about 90 seconds, then slow return to neutral","A high-velocity, low-amplitude thrust through the barrier","Sustained compression of 3–5 seconds only"],
+            ans:1,
+            exp:"Counterstrain finds the position of greatest ease/tenderness reduction and holds it ~90 seconds before a slow passive return to neutral. Isometric contractions describe muscle energy; a thrust describes HVLA." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== NEW LECTURE 3 ===================== */
+  {
+    id: "L3", num: 3, group: "new",
+    title: "Ribs II — Biomechanics, Muscle Energy & Clinical Syndromes",
+    blurb: "Rib dysfunction naming, the BITE rule, muscle-energy targets, and clinical syndromes (costochondritis, fracture, cervical rib, SICK scapula, viscerosomatics).",
+    objectives: [
+      {
+        text: "Recognize rib biomechanics and the proper naming of rib dysfunctions.",
+        questions: [
+          { id:"L3Q1", diff:"High-yield",
+            stem:"A rib-6 somatic dysfunction is found, and the SUPERIOR edge of the posterior rib angle is prominent. The correct diagnosis is:",
+            opts:["Exhalation SD, bucket-handle predominant","Inhalation SD, pump-handle predominant","Inhalation SD, bucket-handle predominant","Exhalation SD, pump-handle predominant"],
+            ans:1,
+            exp:"For ribs 2–10 held in inhalation (pump-handle predominant), the superior edge of the posterior rib angle is prominent (and the anterior rib's inferior edge is prominent). Rib 6 is a transitional rib that can be assessed either way; with the posterior-angle finding given, it is an inhalation, pump-handle dysfunction." },
+          { id:"L3Q2", diff:"Foundational",
+            stem:"A complete rib-dysfunction name must include all of the following EXCEPT:",
+            opts:["Side of dysfunction","Rib number","Inhaled vs exhaled","The patient's pain score"],
+            ans:3,
+            exp:"Naming requires the side, the rib number, inhaled vs exhaled, and the type (pump- or bucket-handle). It is always named for the position of ease." },
+          { id:"L3Q3", diff:"Multi-step",
+            stem:"A 25-year-old develops right chest pain during a hacking cough; ribs 3–6 move easily during EXHALATION but not during inhalation. The key rib's predominant motion is:",
+            opts:["Bucket handle","Pump handle","Caliper","No predominant motion"],
+            ans:1,
+            exp:"These ribs are held in exhalation (won't inhale). In the 3–6 range the key/transition rib behaves as a pump-handle rib, so the dysfunction is described by pump-handle mechanics." }
+        ]
+      },
+      {
+        text: "Discuss the BITE rule and muscle-energy treatment of rib dysfunctions.",
+        questions: [
+          { id:"L3Q4", diff:"High-yield",
+            stem:"Using the BITE rule for a GROUP of inhalation rib dysfunctions, which rib is the key rib treated first?",
+            opts:["The most superior (top) rib","The most inferior (bottom) rib","The middle rib of the group","Any rib — order does not matter"],
+            ans:1,
+            exp:"BITE: treat the Bottom (most inferior) rib first for Inhaled dysfunctions, and the Top (most superior) rib first for Exhaled dysfunctions." },
+          { id:"L3Q5", diff:"High-yield",
+            stem:"A patient has right ribs 6–10 restricted on inhalation (exhalation dysfunctions). For muscle energy, which muscle and key rib are targeted?",
+            opts:["Pectoralis minor; rib 3","Serratus anterior; rib 6","Posterior scalene; rib 2","Latissimus dorsi; rib 10"],
+            ans:1,
+            exp:"For exhalation dysfunctions of ribs 6–10, the serratus anterior is the muscle-energy target. By BITE, the TOP rib (rib 6) is the key rib treated first for exhaled dysfunctions." },
+          { id:"L3Q6", diff:"Multi-step",
+            stem:"A right rib-2 exhalation dysfunction (normal caudad motion on exhalation but no cephalad motion on inhalation) is best treated with muscle energy to which muscle?",
+            opts:["Anterior scalene","Posterior scalene","Pectoralis minor","Serratus anterior"],
+            ans:1,
+            exp:"Muscle-energy targets for exhalation (pump-handle) dysfunctions: rib 1 = anterior/middle scalene; rib 2 = posterior scalene; ribs 3–5 = pectoralis minor; ribs 6–10 = serratus anterior; ribs 11–12 = latissimus dorsi/quadratus lumborum." },
+          { id:"L3Q7", diff:"Multi-step",
+            stem:"T12 is flexed/rotated-left/sidebent-left and the RIGHT rib 12 is restricted with exhalation. For direct post-isometric muscle energy of this rib, which muscle is targeted?",
+            opts:["Pectoralis minor","Serratus anterior","Latissimus dorsi","Quadratus lumborum"],
+            ans:3,
+            exp:"Ribs 11–12 exhalation dysfunctions are treated with the latissimus dorsi or quadratus lumborum. The QL attaches to the 12th rib and is the classic target for rib-12 mechanics." },
+          { id:"L3Q8", diff:"Foundational",
+            stem:"Tenderness in the SERRATUS ANTERIOR most likely localizes a rib dysfunction at which ribs?",
+            opts:["Ribs 1–2","Ribs 3–5","Ribs 6–9","Ribs 11–12"],
+            ans:2,
+            exp:"The serratus anterior is the muscle-energy muscle for ribs 6–9/10, so its tenderness points to dysfunction in that range." },
+          { id:"L3Q9", diff:"Multi-step",
+            stem:"For rib 1, which muscles are used as the muscle-energy lever for an exhalation dysfunction?",
+            opts:["Anterior and middle scalenes","Posterior scalene","Pectoralis minor","Latissimus dorsi"],
+            ans:0,
+            exp:"Rib 1 = anterior and middle scalenes; rib 2 = posterior scalene. These scalene levers raise the stuck-down (exhaled) upper rib during the inhalation effort of muscle energy." }
+        ]
+      },
+      {
+        text: "Recognize clinical syndromes associated with the ribs and their viscerosomatic relationships.",
+        questions: [
+          { id:"L3Q10", diff:"Foundational",
+            stem:"Irritation of the chondrosternal/costochondral articulations (commonly ribs 2–5) with tenderness and puffiness but NO edema describes:",
+            opts:["Costochondral separation","Costochondritis","Rib fracture","Tietze syndrome with frank swelling"],
+            ans:1,
+            exp:"Costochondritis is inflammation of the chondrosternal/costochondral joints (often ribs 2–5) presenting with local tenderness/puffiness but classically no true edema." },
+          { id:"L3Q11", diff:"Multi-step",
+            stem:"After direct trauma a patient has point pain over one or two ribs. Which imaging is preferred for an ACUTE traumatic rib fracture vs a stress fracture?",
+            opts:["MRI for acute; X-ray for stress","X-ray or ultrasound for acute; bone scan for stress","CT for acute; PET for stress","No imaging is useful for either"],
+            ans:1,
+            exp:"Acute traumatic rib fractures are evaluated with X-ray or ultrasound; suspected stress fractures are best detected with a bone scan." },
+          { id:"L3Q12", diff:"Foundational",
+            stem:"A congenital radiolucent fibrocartilaginous band running from a cervical rib tip to the first thoracic rib classically causes:",
+            opts:["Costochondritis","Thoracic outlet syndrome","Pneumonia","Herpes zoster"],
+            ans:1,
+            exp:"A cervical rib (or its fibrocartilaginous band) can compress the neurovascular bundle, producing thoracic outlet syndrome." },
+          { id:"L3Q13", diff:"Multi-step",
+            stem:"In SICK scapula / scapular dyskinesis, providing manual stability to the scapula relieves the patient's pain. This describes a positive:",
+            opts:["Scapular repositioning (assistance) test","Spurling test","Froment's sign","Hawkins test"],
+            ans:0,
+            exp:"A positive scapular repositioning/assistance test (pain improves when the scapula is stabilized) supports scapular dyskinesis. Scapular stabilizers include the serratus anterior, trapezius, levator scapulae, and rhomboids." },
+          { id:"L3Q14", diff:"Foundational",
+            stem:"Deep, dermatomal rib pain from reactivation of latent varicella virus within the dorsal root ganglion describes:",
+            opts:["Costochondritis","Herpes zoster","Pleurisy","Cervical rib syndrome"],
+            ans:1,
+            exp:"Herpes zoster (shingles) causes deep, nerve-root (dermatomal) rib pain from reactivation of latent varicella-zoster virus in the dorsal root ganglion." },
+          { id:"L3Q15", diff:"Multi-step",
+            stem:"The major OMT goal when treating an asthmatic patient's ribs/thorax is best described as:",
+            opts:["Rib raising and paraspinal inhibition of T2–T6 bilaterally to reduce sympathetic tone","Aggressive HVLA of every rib","OA decompression only","Sacral inhibition only"],
+            ans:0,
+            exp:"In asthma, OMT aims to normalize sympathetic tone and improve thoracic cage motion/lymphatic drainage — rib raising and bilateral paraspinal inhibition over the upper thoracic sympathetic levels (≈T2–T6) are the core techniques." }
+        ]
+      }
+    ]
+  },
+  /* ===================== NEW LECTURE 4 ===================== */
+  {
+    id: "L4", num: 4, group: "new",
+    title: "Complex Regional Pain Syndrome & Rib HVLA",
+    blurb: "Recognizing CRPS, its etiology, staging, CRPS I vs II, diagnostic criteria, and the treatment approach — plus HVLA for rib dysfunction.",
+    objectives: [
+      {
+        text: "Recognize CRPS and identify its etiology and epidemiology.",
+        questions: [
+          { id:"L4Q1", diff:"Foundational",
+            stem:"Complex Regional Pain Syndrome is most common in which population?",
+            opts:["Young men after sports injury","Postmenopausal women","Pre-pubertal boys","Elderly men with diabetes"],
+            ans:1,
+            exp:"CRPS has a female predominance (≈2:1 to 4:1) and incidence is highest in postmenopausal women. Adults typically have upper-extremity involvement; children more often have lower-extremity involvement (rarer but better prognosis)." },
+          { id:"L4Q2", diff:"Multi-step",
+            stem:"The majority of inciting events that trigger CRPS I and II are:",
+            opts:["Myocardial infarction","Cerebrovascular accident","Soft-tissue injury","Idiopathic with no event"],
+            ans:2,
+            exp:"Soft-tissue injury is the most common inciting event, though fractures are also frequent. An identifiable noxious/immobilizing event is part of the classic history." },
+          { id:"L4Q3", diff:"Foundational",
+            stem:"In children, CRPS most often affects which region and carries what prognosis?",
+            opts:["Upper extremity; poor prognosis","Lower extremity; better prognosis","Axial spine; guarded prognosis","Face; excellent prognosis"],
+            ans:1,
+            exp:"In children CRPS more often involves the lower extremity and, although rarer, generally carries a better prognosis than in adults." }
+        ]
+      },
+      {
+        text: "Differentiate CRPS I from CRPS II and identify clinical manifestations and staging.",
+        questions: [
+          { id:"L4Q4", diff:"High-yield",
+            stem:"A 39-year-old has severe hand pain with edema, color and sweating changes, and hyperesthesia following a crush injury that ALSO caused documented median-nerve transection. This is best classified as:",
+            opts:["CRPS I (RSD)","CRPS II (causalgia)","Fibromyalgia","Phantom limb pain"],
+            ans:1,
+            exp:"CRPS II (causalgia) occurs in the presence of major nerve damage. CRPS I (formerly RSD) is the same clinical picture WITHOUT major nerve damage." },
+          { id:"L4Q5", diff:"Multi-step",
+            stem:"A patient with chronic CRPS has diffuse burning pain, cold/cyanotic skin, brittle nails, hair loss, and spotty osteoporosis on imaging. This is most consistent with which stage?",
+            opts:["Stage 0","Stage 1","Stage 2","Stage 3"],
+            ans:2,
+            exp:"Stage 2 (dystrophic) brings chronic tissue changes — hair loss, decreased/brittle nail growth, cyanotic skin, muscle wasting — with more severe, diffuse burning pain and early osteoporosis." },
+          { id:"L4Q6", diff:"Multi-step",
+            stem:"Marked atrophy, livedo reticularis, and intractable pain are most characteristic of which CRPS stage?",
+            opts:["Stage 1","Stage 2","Stage 3","Stage 0"],
+            ans:2,
+            exp:"Stage 3 (atrophic) is defined by marked atrophy, livedo reticularis, contractures, and intractable pain, often with more diffuse osteoporosis." },
+          { id:"L4Q7", diff:"Foundational",
+            stem:"CRPS I differs from CRPS II in that CRPS I is diagnosed:",
+            opts:["Only after amputation","Without identifiable major nerve damage","Only in the lower extremity","Only with a positive ANA"],
+            ans:1,
+            exp:"CRPS I is the clinical syndrome WITHOUT major nerve damage (RSD); CRPS II is the same syndrome WITH major nerve damage (causalgia)." }
+        ]
+      },
+      {
+        text: "Identify how CRPS is diagnosed and its treatment approach.",
+        questions: [
+          { id:"L4Q8", diff:"Multi-step",
+            stem:"Which of the following is NOT part of the diagnostic criteria for CRPS?",
+            opts:["An initiating noxious event or cause of immobilization","Continuing pain, allodynia, or hyperalgesia","A positive antinuclear antibody (ANA) titer","Exclusion of other conditions that could account for the pain"],
+            ans:2,
+            exp:"CRPS is a clinical diagnosis based on an inciting event, pain out of proportion, evidence of edema/skin-blood-flow/sudomotor changes, and exclusion of other causes. A positive ANA is not a criterion (ESR/CRP are checked mainly to rule OUT autoimmune disease)." },
+          { id:"L4Q9", diff:"Multi-step",
+            stem:"Which imaging finding/test is described as MORE sensitive than plain radiographs for CRPS?",
+            opts:["Bone scan","Standing X-ray","Fluoroscopy","Ultrasound"],
+            ans:0,
+            exp:"For CRPS, a three-phase bone scan is more useful than plain radiographs. CT can show osteoporosis and MRI can show atrophy." },
+          { id:"L4Q10", diff:"High-yield",
+            stem:"A sympathetic nerve block is performed in a patient with suspected CRPS; she has marked pain relief and improved limb temperature. This is best interpreted as:",
+            opts:["A purely therapeutic maneuver with no diagnostic value","Both diagnostic AND therapeutic — a positive response","Evidence against CRPS","A reason to stop all other treatment"],
+            ans:1,
+            exp:"A sympathetic nerve block can be both diagnostic and therapeutic in CRPS: pain relief and temperature improvement constitute a positive (sympathetically maintained) diagnostic response." },
+          { id:"L4Q11", diff:"Foundational",
+            stem:"CRPS can mimic several other disorders. Which set is most appropriate to consider in the differential?",
+            opts:["Vasculitis, rheumatoid arthritis, peripheral neuropathy","Appendicitis, cholecystitis, pancreatitis","Migraine, cluster headache, tension headache","Asthma, COPD, bronchitis"],
+            ans:0,
+            exp:"CRPS can mimic vasculitis, rheumatoid arthritis, and peripheral neuropathy; inflammatory markers (ESR/CRP) help exclude autoimmune mimics." }
+        ]
+      },
+      {
+        text: "Demonstrate diagnosis and HVLA treatment of rib dysfunctions (Lab).",
+        questions: [
+          { id:"L4Q12", diff:"Foundational",
+            stem:"HVLA delivers what kind of force relative to the restrictive barrier?",
+            opts:["A low-velocity, high-amplitude force short of the barrier","A high-velocity, low-amplitude thrust through the restrictive barrier","A sustained 90-second hold at the position of ease","Repeated isometric contractions away from the barrier"],
+            ans:1,
+            exp:"HVLA (a direct technique) engages the restrictive barrier and applies a high-velocity, low-amplitude thrust through it to restore motion." },
+          { id:"L4Q13", diff:"Multi-step",
+            stem:"Before applying rib HVLA, which finding would make you reconsider thrust technique?",
+            opts:["A simple single-rib somatic dysfunction","Suspected rib fracture or osteoporosis at the segment","Mild paraspinal hypertonicity","Patient anxiety alone"],
+            ans:1,
+            exp:"Fracture and osteoporosis (along with malignancy/metastasis, infection, and bony instability) are contraindications to HVLA at the involved segment; a gentler indirect or fluid technique is safer." },
+          { id:"L4Q14", diff:"Foundational",
+            stem:"When setting up rib HVLA, the practitioner first localizes forces to the:",
+            opts:["Contralateral hip","Key (dysfunctional) rib and its costovertebral/costotransverse articulation","Cervical spine","Opposite shoulder only"],
+            ans:1,
+            exp:"Effective HVLA requires precise localization to the key rib and its vertebral articulation so the thrust acts specifically on the restricted segment." },
+          { id:"L4Q15", diff:"Multi-step",
+            stem:"A patient has an isolated, recalcitrant rib somatic dysfunction unresponsive to muscle energy. HVLA is appropriate primarily because it:",
+            opts:["Replaces the need for any diagnosis","Restores segmental motion at the restricted articulation with a precise thrust","Is the only technique that treats ribs","Avoids the need to localize the key rib"],
+            ans:1,
+            exp:"HVLA is a useful direct technique for restoring motion at a specifically localized restricted articulation when indirect/ME approaches are insufficient and there are no contraindications." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== NEW LECTURE 5 ===================== */
+  {
+    id: "L5", num: 5, group: "new",
+    title: "Cervical Spine I — Functional Anatomy, Diagnosis & Fryette",
+    blurb: "Cervical attachments and musculature, facet orientation, OA/AA mechanics, translation testing, soft tissue and facilitated positional release.",
+    objectives: [
+      {
+        text: "Describe cervical facet orientation and the resulting motion.",
+        questions: [
+          { id:"L5Q1", diff:"High-yield",
+            stem:"The superior facets of the typical cervical vertebrae are oriented:",
+            opts:["Backward, Upward, Lateral (BUL)","Backward, Upward, Medial (BUM)","Backward, Medial (BM)","Forward, Lateral, Superior"],
+            ans:1,
+            exp:"Cervical superior facets are oriented Backward, Upward, Medial (BUM). Thoracic = BUL (backward, upward, lateral); lumbar = BM (backward, medial)." },
+          { id:"L5Q2", diff:"Foundational",
+            stem:"Compared with the thoracic and lumbar regions, the cervical spine permits:",
+            opts:["The least overall motion","Flexion/extension, sidebending, AND rotation (the most mobile region)","Rotation only","Sidebending only"],
+            ans:1,
+            exp:"The BUM facet orientation allows the cervical spine the greatest freedom of motion — flexion/extension, sidebending, and rotation." }
+        ]
+      },
+      {
+        text: "Describe the unique mechanics of the OA and AA joints.",
+        questions: [
+          { id:"L5Q3", diff:"High-yield",
+            stem:"At the occipitoatlantal (C0–C1) joint, sidebending and rotation occur:",
+            opts:["In the same direction","In opposite directions","Rotation only; no sidebending","Sidebending only; no rotation"],
+            ans:1,
+            exp:"At the OA joint, sidebending and rotation occur in OPPOSITE directions — remembered as 'OA = Opposite Always.' Its primary motion is flexion/extension." },
+          { id:"L5Q4", diff:"Multi-step",
+            stem:"To best isolate and assess rotation at the atlantoaxial (C1–C2) joint, the patient's head should be placed in:",
+            opts:["Neutral","Full flexion","Full extension","Maximal sidebending"],
+            ans:1,
+            exp:"Full flexion locks out the lower cervical segments, isolating the AA joint, whose primary (and largest) motion is rotation (~50% of cervical rotation)." }
+        ]
+      },
+      {
+        text: "Diagnose cervical somatic dysfunction using translation/motion testing and Fryette's principles.",
+        questions: [
+          { id:"L5Q5", diff:"High-yield",
+            stem:"During cervical motion testing, translation of the articular pillars to the RIGHT is restricted. The segment therefore 'lives in' (prefers):",
+            opts:["Left sidebending","Right sidebending","Right rotation with left sidebending","Neutral"],
+            ans:1,
+            exp:"Translating the pillars to the right induces left sidebending; if that translation is restricted, the segment does not want to sidebend left — it prefers RIGHT sidebending. In the typical (type II) cervicals, rotation follows to the same side." },
+          { id:"L5Q6", diff:"Multi-step",
+            stem:"A C2 segment has restricted translation to the right that significantly IMPROVES with flexion. Following type II mechanics, the diagnosis is:",
+            opts:["C2 N SL RR","C2 F SR RR","C2 E SR RL","C2 F SL RL"],
+            ans:1,
+            exp:"Restricted right translation → lives in right sidebending; typical cervicals couple sidebending and rotation to the SAME side → right rotation. Improvement with flexion means it prefers flexion → C2 Flexed, Sidebent Right, Rotated Right (F SR RR)." },
+          { id:"L5Q7", diff:"Multi-step",
+            stem:"An OA joint shows restricted translation to the right that is symmetric in the EXTENDED position. The dysfunction is best named:",
+            opts:["OA E SR RL","OA F SR RR","OA E SL RR","OA N SR RR"],
+            ans:0,
+            exp:"Restriction resolving in extension means the segment prefers extension. Restricted right translation → prefers right sidebending; OA couples oppositely → rotation LEFT. Diagnosis: OA Extended, Sidebent Right, Rotated Left (E SR RL). For muscle energy you would set up the opposite (OA F SL RR)." },
+          { id:"L5Q8", diff:"Foundational",
+            stem:"By Fryette's principles, a SINGLE cervical segment dysfunction in flexion or extension couples sidebending and rotation:",
+            opts:["To opposite sides (type I)","To the same side (type II)","Independently of one another","Only in rotation"],
+            ans:1,
+            exp:"Type II (non-neutral, single-segment) mechanics couple sidebending and rotation to the SAME side. Type I (neutral, group) couples them to opposite sides." }
+        ]
+      },
+      {
+        text: "Describe cervical musculature and treat with soft tissue and facilitated positional release (Lab).",
+        questions: [
+          { id:"L5Q9", diff:"Multi-step",
+            stem:"Cervicogenic headache is classically attributed to a myodural bridge between which two structures?",
+            opts:["Rectus capitis posterior MINOR and the intracranial dura","Rectus capitis posterior major and the splenius capitis","Splenius cervicis and the trapezius","Longus colli and the prevertebral fascia"],
+            ans:0,
+            exp:"A connective-tissue (myodural) bridge between the rectus capitis posterior minor and the intracranial dura is implicated in cervicogenic headache." },
+          { id:"L5Q10", diff:"Foundational",
+            stem:"Which suboccipital muscle extends and rotates the OA region (acting on the head at the atlas)?",
+            opts:["Rectus capitis anterior","Rectus capitis posterior major","Longus capitis","Scalenus anterior"],
+            ans:1,
+            exp:"The rectus capitis posterior major extends and rotates the head at the OA/AA region. The rectus capitis anterior is a flexor; the posterior minor primarily resists dural infolding." },
+          { id:"L5Q11", diff:"Foundational",
+            stem:"Facilitated positional release (FPR) is best described as which type of technique?",
+            opts:["A direct thrust technique","An indirect technique using a facilitating force (compression) with positioning toward ease","A 90-second counterstrain hold only","An isometric muscle-energy technique"],
+            ans:1,
+            exp:"FPR is an indirect technique: the region is placed in neutral, an activating/facilitating force (often compression) is added, and the segment is positioned toward ease to release the dysfunction." },
+          { id:"L5Q12", diff:"Multi-step",
+            stem:"In a soft-tissue sequence for cervical hypertonicity before specific technique, the goal is primarily to:",
+            opts:["Thrust through the barrier immediately","Reduce paraspinal hypertonicity and improve tissue compliance before targeted treatment","Diagnose visceral disease","Avoid touching the patient"],
+            ans:1,
+            exp:"Soft tissue work (kneading, stretching, inhibition) reduces paraspinal hypertonicity and prepares the tissues so subsequent specific techniques (ME, FPR, HVLA) are more effective." },
+          { id:"L5Q13", diff:"Foundational",
+            stem:"The scalene muscles attach to the cervical transverse processes and the upper ribs, functioning as:",
+            opts:["Primary expiratory muscles","Accessory muscles of inspiration that elevate ribs 1–2","Pure rotators of the lumbar spine","Muscles with no respiratory role"],
+            ans:1,
+            exp:"The anterior/middle scalenes elevate rib 1 and the posterior scalene elevates rib 2; they act as accessory muscles of inspiration and are the muscle-energy levers for upper-rib exhalation dysfunctions." },
+          { id:"L5Q14", diff:"Multi-step",
+            stem:"When palpating and testing cervical movement, asymmetry that changes between flexion and extension positions most directly helps you determine:",
+            opts:["The side of dysfunction only","Whether the segment is a flexion vs extension (type II) dysfunction","The patient's blood pressure","The presence of a rib dysfunction"],
+            ans:1,
+            exp:"Comparing the asymmetry in flexion vs extension tells you which position the segment prefers (flexed vs extended), completing the type II diagnosis along with the sidebending/rotation found on translation." },
+          { id:"L5Q15", diff:"Foundational",
+            stem:"Which statement about evaluating cervical range of motion is most accurate?",
+            opts:["Gross active ROM is irrelevant to diagnosis","Restricted gross active ROM (e.g., limited rotation/sidebending) helps localize the region before segmental testing","Only imaging can assess motion","Sidebending cannot be tested in the neck"],
+            ans:1,
+            exp:"Screening gross active ROM (rotation, sidebending, flexion/extension) localizes the restricted region; segmental motion/translation testing then pinpoints the specific dysfunction." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== NEW LECTURE 6 ===================== */
+  {
+    id: "L6", num: 6, group: "new",
+    title: "Cervical Spine II — Radiculopathy, Myelopathy, ME & Counterstrain",
+    blurb: "Cervical radiculopathy etiology, signs, differential, exam/special tests, diagnostics, treatment; cervical myelopathy; muscle energy and counterstrain.",
+    objectives: [
+      {
+        text: "Identify the etiology, signs/symptoms, and differential of cervical radiculopathy.",
+        questions: [
+          { id:"L6Q1", diff:"Foundational",
+            stem:"Cervical radiculopathy is most accurately defined as:",
+            opts:["Compression of the spinal cord itself","Dysfunction/compression of a cervical nerve ROOT producing dermatomal/myotomal symptoms","A purely muscular strain","A vascular headache"],
+            ans:1,
+            exp:"Radiculopathy is nerve-ROOT compression (e.g., from disc herniation or spondylotic foraminal narrowing) causing radiating pain, sensory changes, and weakness in that root's distribution. Myelopathy is cord compression." },
+          { id:"L6Q2", diff:"Multi-step",
+            stem:"A 46-year-old has neck pain radiating to the right hand with middle-finger numbness, a diminished triceps reflex, and weak wrist flexion; symptoms worsen with forward head bending. Which disc level is most likely?",
+            opts:["C3–C4","C4–C5","C5–C6","C6–C7"],
+            ans:3,
+            exp:"Middle-finger numbness, a depressed triceps reflex, and weak wrist flexion/finger extension localize to the C7 root. A paramedian C6–C7 disc herniation compresses the traversing C7 root." },
+          { id:"L6Q3", diff:"Multi-step",
+            stem:"Which special test reproduces radicular symptoms by extending and sidebending the neck TOWARD the affected side (narrowing the neural foramen)?",
+            opts:["Spurling test","Lhermitte sign","Hoffman sign","Adson test"],
+            ans:0,
+            exp:"The Spurling test (extension + ipsilateral sidebending ± axial compression) narrows the foramen and reproduces radicular pain, supporting cervical radiculopathy." }
+        ]
+      },
+      {
+        text: "Identify diagnostic testing for cervical radiculopathy.",
+        questions: [
+          { id:"L6Q4", diff:"High-yield",
+            stem:"What is described as the GOLD-STANDARD test to diagnose cervical radiculopathy?",
+            opts:["MRI","Non-contrast CT","Contrast CT","Needle electromyography (EMG)"],
+            ans:3,
+            exp:"Needle EMG is considered the gold standard for confirming radiculopathy. MRI is the imaging modality of choice for visualizing the structural cause (disc, foraminal stenosis)." },
+          { id:"L6Q5", diff:"Foundational",
+            stem:"Which imaging is the modality of choice for visualizing a herniated cervical disc or foraminal stenosis?",
+            opts:["Plain radiograph","MRI","Ultrasound","Bone scan"],
+            ans:1,
+            exp:"MRI best demonstrates soft-tissue causes such as disc herniation, ligamentous change, and foraminal/canal stenosis." }
+        ]
+      },
+      {
+        text: "Describe the treatment plan and the clinical features of cervical myelopathy.",
+        questions: [
+          { id:"L6Q6", diff:"High-yield",
+            stem:"A 60-year-old with presumed cervical MYELOPATHY would most likely show which exam findings?",
+            opts:["Narrow-based steady gait; negative Babinski","Broad-based, unsteady gait; positive Babinski","Normal gait; absent reflexes only","Foot drop with normal reflexes"],
+            ans:1,
+            exp:"Myelopathy (cord compression) produces upper-motor-neuron signs: a broad-based, unsteady gait, hyperreflexia, a positive Babinski (and often Hoffman) sign, and clumsy hands." },
+          { id:"L6Q7", diff:"Multi-step",
+            stem:"Which is a contraindication to cervical HVLA?",
+            opts:["Mild osteoarthritis","Active radiculopathy / progressive neurologic deficit","Cold weather","Mild muscle tension"],
+            ans:1,
+            exp:"Progressive neurologic deficit, myelopathy, vertebrobasilar insufficiency, instability (e.g., RA, Down syndrome), fracture, osteoporosis, infection, and malignancy are contraindications to cervical HVLA. Active radiculopathy with progressive deficit is one such contraindication." },
+          { id:"L6Q8", diff:"Foundational",
+            stem:"An appropriate conservative treatment plan for uncomplicated cervical radiculopathy includes:",
+            opts:["Immediate surgery for all patients","OMT (soft tissue, ME, counterstrain), NSAIDs/analgesics, and activity modification, reserving surgery for refractory/progressive cases","HVLA as the only option","No treatment"],
+            ans:1,
+            exp:"Most cervical radiculopathy improves with conservative care — OMT, NSAIDs/analgesics, neuropathic agents, and activity modification. Surgery is reserved for progressive deficit, myelopathy, or intractable cases." }
+        ]
+      },
+      {
+        text: "Apply cervical muscle energy and counterstrain to cervical somatic dysfunction (Lab).",
+        questions: [
+          { id:"L6Q9", diff:"Multi-step",
+            stem:"A 38-year-old has an OA dysfunction diagnosed as OA E SR RL. For MUSCLE ENERGY, the patient is positioned in the dysfunction's OPPOSITE (the restrictive barrier). That setup is:",
+            opts:["OA E SR RL","OA F SL RR","OA N SR RR","OA E SL RR"],
+            ans:1,
+            exp:"Muscle energy is a direct technique engaging the restrictive barrier — the opposite of the dysfunction. Opposite of E SR RL is Flexed, Sidebent Left, Rotated Right (F SL RR)." },
+          { id:"L6Q10", diff:"Foundational",
+            stem:"In cervical muscle energy, after the patient gives a gentle isometric effort toward the position of ease, the physician:",
+            opts:["Thrusts through the barrier","Takes up the new slack to the new barrier and repeats (post-isometric relaxation)","Holds 90 seconds and returns","Stops treatment immediately"],
+            ans:1,
+            exp:"Muscle energy uses post-isometric relaxation: after a 3–5 second isometric contraction and relaxation, the physician engages the new barrier and repeats the cycle several times." },
+          { id:"L6Q11", diff:"Foundational",
+            stem:"Anterior cervical counterstrain tender points are generally located on the:",
+            opts:["Spinous processes posteriorly","Anterior aspect of the transverse processes / articular pillars","Mastoid tips only","Mid-thoracic paraspinals"],
+            ans:1,
+            exp:"Anterior cervical Jones tender points lie along the anterolateral transverse processes/articular pillars; posterior cervical points lie on the posterior aspects (e.g., occiput, spinous/articular pillars)." },
+          { id:"L6Q12", diff:"Foundational",
+            stem:"The general treatment position for a counterstrain tender point is one that:",
+            opts:["Maximally stretches the tender tissue","Markedly reduces the tenderness at the monitored point (position of ease), held ~90 seconds","Reproduces maximal pain","Requires a high-velocity thrust"],
+            ans:1,
+            exp:"Counterstrain positions the patient so the monitored tender point's tenderness drops by ~70% or more (the position of ease), holds ~90 seconds, then slowly returns to neutral." },
+          { id:"L6Q13", diff:"Multi-step",
+            stem:"For an ANTERIOR cervical tender point, the typical fold/position to shorten the involved tissue is:",
+            opts:["Extension, sidebending and rotation away from the point","Flexion, with sidebending/rotation generally toward the tender point","Pure traction only","Maximal rotation away with extension"],
+            ans:1,
+            exp:"Anterior cervical tender points generally ease with flexion and fine-tuning of sidebending/rotation (often toward the point) to shorten the tissue and reduce monitored tenderness." },
+          { id:"L6Q14", diff:"Multi-step",
+            stem:"Why is counterstrain a useful choice in an acutely guarded, painful neck where HVLA is undesirable?",
+            opts:["It is a forceful thrust technique","It is an indirect, gentle positional technique that does not push through a painful barrier","It requires patient general anesthesia","It is the only technique that treats the cervical spine"],
+            ans:1,
+            exp:"Counterstrain is indirect and gentle — positioning toward ease rather than thrusting through a barrier — making it well suited to acute, guarded, or fragile presentations." },
+          { id:"L6Q15", diff:"Foundational",
+            stem:"Distinguishing radiculopathy from myelopathy matters because management differs: myelopathy specifically warrants:",
+            opts:["Routine HVLA","Heightened concern and avoidance of cervical HVLA, with surgical/neurosurgical evaluation","Reassurance and discharge","Only behavioral counseling"],
+            ans:1,
+            exp:"Myelopathy implies cord compression with UMN signs; cervical HVLA is contraindicated and prompt surgical evaluation is appropriate, unlike most uncomplicated radiculopathy which is managed conservatively." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R1 ===================== */
+  {
+    id: "R1", num: 1, group: "review",
+    title: "Osteopathic Models & Barriers of Motion",
+    blurb: "The five osteopathic models of care and the physiologic, anatomic, restrictive, and elastic barriers; acute vs chronic tissue texture.",
+    objectives: [
+      {
+        text: "Apply the five osteopathic models of treatment.",
+        questions: [
+          { id:"R1Q1", diff:"Foundational",
+            stem:"The biomechanical model primarily addresses health and disease through which system?",
+            opts:["The respiratory and cardiovascular systems","The musculoskeletal system (posture, motion, somatic dysfunction)","The GI/GU systems","Mental and emotional health"],
+            ans:1,
+            exp:"The biomechanical model centers on the musculoskeletal system — posture, motion, and somatic dysfunction ('movement is life')." },
+          { id:"R1Q2", diff:"Multi-step",
+            stem:"A patient with CHF has lower-extremity edema. Opening the thoracic inlet and promoting lymphatic drainage best reflects which model?",
+            opts:["Behavioral","Respiratory–circulatory","Neurologic","Metabolic–energy"],
+            ans:1,
+            exp:"The respiratory–circulatory model targets fluid homeostasis and circulation (lungs, heart, lymphatics). Opening the thoracic inlet improves lymphatic/venous return to reduce edema." },
+          { id:"R1Q3", diff:"Multi-step",
+            stem:"A sedentary office worker with anxiety and poor sleep receives lifestyle and sleep-hygiene counseling. This is the:",
+            opts:["Biomechanical model","Behavioral (biopsychosocial) model","Neurologic model","Respiratory–circulatory model"],
+            ans:1,
+            exp:"The behavioral/biopsychosocial model addresses mental, emotional, and lifestyle factors — sleep, exercise, diet, stress, and social support." },
+          { id:"R1Q4", diff:"Multi-step",
+            stem:"Which model is most associated with the GI/GU, reproductive, and immune systems and with supporting healing via nutrition?",
+            opts:["Energy–metabolic model","Biomechanical model","Behavioral model","Neurologic model"],
+            ans:0,
+            exp:"The energy–metabolic model concerns cellular/organ function, nutrient and waste processing, reproduction, and immune support; nutrition strongly influences healing within this model." },
+          { id:"R1Q5", diff:"Foundational",
+            stem:"Using OA decompression to promote parasympathetic input and reduce a sympathetic pain response reflects which model?",
+            opts:["Behavioral","Neurologic","Metabolic","Biomechanical"],
+            ans:1,
+            exp:"The neurologic model addresses autonomic and somatic neural function; OA decompression promotes parasympathetic (vagal) tone to modulate the pain/sympathetic response." }
+        ]
+      },
+      {
+        text: "Define the barriers of motion and characterize acute vs chronic somatic dysfunction.",
+        questions: [
+          { id:"R1Q6", diff:"Foundational",
+            stem:"The PHYSIOLOGIC barrier is best defined as the:",
+            opts:["Limit of passive motion imposed by anatomic structure","Limit of ACTIVE motion the patient can achieve","An abnormal restriction within the anatomic range","Ligamentous stretch beyond the anatomic barrier"],
+            ans:1,
+            exp:"The physiologic barrier is the limit of active motion. The anatomic barrier is the limit of passive motion (set by structure); going past it risks injury." },
+          { id:"R1Q7", diff:"Multi-step",
+            stem:"A functional limit WITHIN the anatomic range that abnormally diminishes normal physiologic motion (from somatic dysfunction or trauma) describes the:",
+            opts:["Anatomic barrier","Elastic barrier","Restrictive barrier","Physiologic barrier"],
+            ans:2,
+            exp:"The restrictive barrier is an abnormal limit encountered before the physiologic barrier, reducing normal motion; it is what OMT aims to remove." },
+          { id:"R1Q8", diff:"Foundational",
+            stem:"The elastic barrier is found:",
+            opts:["At the limit of active motion","Between the physiologic and anatomic barriers (passive ligamentous stretch)","Before the restrictive barrier","Only in the cervical spine"],
+            ans:1,
+            exp:"The elastic barrier lies between the physiologic and anatomic barriers — the range of passive ligamentous stretch (where an HVLA 'release' often occurs)." },
+          { id:"R1Q9", diff:"Multi-step",
+            stem:"On palpating T4, you note a very restricted segment with hard surrounding muscles and thick, sensitive superficial skin. These findings most suggest:",
+            opts:["Acute somatic dysfunction","Chronic somatic dysfunction","Acute on chronic","Normal tissue"],
+            ans:1,
+            exp:"Chronic somatic dysfunction shows cool, less moist tissue, ropy/firm (hard) musculature, thickened skin, and decreased acute inflammatory signs. Acute dysfunction is warm, boggy, edematous, and more tender/erythematous." },
+          { id:"R1Q10", diff:"Multi-step",
+            stem:"Acute somatic dysfunction tissue texture is best characterized by:",
+            opts:["Cool, dry, fibrotic tissue with ropy muscle","Warm, moist/boggy, edematous tissue with acute tenderness","Painless thickened skin","No palpable change"],
+            ans:1,
+            exp:"Acute dysfunction is associated with warmth, edema/bogginess, increased moisture, and heightened tenderness — reflecting the acute inflammatory/vascular response." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R2 ===================== */
+  {
+    id: "R2", num: 2, group: "review",
+    title: "Pelvis — Anatomy & Diagnosis",
+    blurb: "Innominate landmarks, standing flexion and ASIS-compression localization, rotations, shears, flares, and pelvic ligaments.",
+    objectives: [
+      {
+        text: "Diagnose innominate (pelvic) somatic dysfunction.",
+        questions: [
+          { id:"R2Q1", diff:"Foundational",
+            stem:"A POSITIVE standing (stork) flexion test localizes dysfunction to which structure and side?",
+            opts:["The sacrum, contralateral side","The innominate/pelvis, on the side that moves first/most","Always the lumbar spine","The hip joint only"],
+            ans:1,
+            exp:"The standing flexion test screens iliosacral (innominate) motion; the side whose PSIS moves first/superiorly is positive. The SEATED flexion test is the sacral (sacroiliac) screen." },
+          { id:"R2Q2", diff:"Multi-step",
+            stem:"A patient with groin pain has ASIS superior on the right and PSIS inferior on the right, with a positive ASIS compression test on the right. The diagnosis is:",
+            opts:["Right anterior innominate rotation","Right posterior innominate rotation","Right superior shear","Left posterior rotation"],
+            ans:1,
+            exp:"With the same-side ASIS superior and PSIS inferior, the innominate has rotated posteriorly. (Anterior rotation is the reverse: ASIS inferior, PSIS superior.)" },
+          { id:"R2Q3", diff:"Multi-step",
+            stem:"After a fall, a patient has a positive standing flexion test on the right, right ASIS superior, and left PSIS inferior — with BOTH the ASIS and PSIS elevated on the right. This best fits:",
+            opts:["Right outflare","Right inferior shear","Right superior shear (upslip)","Left posterior rotation"],
+            ans:2,
+            exp:"When both the ASIS and PSIS are superior on the same side, the innominate has sheared superiorly (a superior innominate shear / upslip). Treatment is typically HVLA." },
+          { id:"R2Q4", diff:"Multi-step",
+            stem:"A patient has a positive standing flexion test on the left, with the right ASIS more MEDIAL and the right PSIS more LATERAL. The diagnosis is:",
+            opts:["Left inflare","Right inflare","Left outflare","Right outflare"],
+            ans:0,
+            exp:"An inflare is named by the side where the ASIS is more medial. Here the LEFT side is positive (standing flexion) — combined with medial-ASIS findings this is a left inflare." },
+          { id:"R2Q5", diff:"Foundational",
+            stem:"Which test is used to LOCALIZE/confirm the side of innominate dysfunction by comparing resistance to medial compression at each ASIS?",
+            opts:["Spring test","ASIS compression test","Sphinx test","Thomas test"],
+            ans:1,
+            exp:"The ASIS compression test compares how each side springs with medial compression; the more restricted side localizes the dysfunctional innominate." }
+        ]
+      },
+      {
+        text: "Identify pelvic anatomy and ligaments.",
+        questions: [
+          { id:"R2Q6", diff:"Foundational",
+            stem:"Which set are the TRUE sacroiliac ligaments?",
+            opts:["Sacrotuberous, sacrospinous, iliolumbar","Anterior SI, posterior SI, interosseous SI","Inguinal, sacrotuberous, iliolumbar","Anterior longitudinal, ligamentum flavum, supraspinous"],
+            ans:1,
+            exp:"The true SI ligaments are the anterior, posterior, and interosseous sacroiliac ligaments. The sacrotuberous, sacrospinous, and iliolumbar are accessory pelvic ligaments." },
+          { id:"R2Q7", diff:"Multi-step",
+            stem:"Which ligament helps form the boundary of the GREATER sciatic foramen (separating it from the lesser)?",
+            opts:["Anterior sacroiliac ligament","Iliolumbar ligament","Sacrospinous ligament","Posterior sacroiliac ligament"],
+            ans:2,
+            exp:"The sacrospinous ligament separates the greater and lesser sciatic foramina; with the sacrotuberous ligament it converts the sciatic notches into foramina." },
+          { id:"R2Q8", diff:"Multi-step",
+            stem:"Which feature best describes a MALE pelvis compared with a female pelvis?",
+            opts:["Wider, more oval pelvic inlet","Longer/narrower with a smaller pelvic outlet","Larger pelvic outlet","More everted ischial tuberosities"],
+            ans:1,
+            exp:"The male pelvis is generally taller and narrower with a heart-shaped inlet and a smaller outlet; the female pelvis is broader with a more oval/round inlet and larger outlet for childbirth." },
+          { id:"R2Q9", diff:"Foundational",
+            stem:"Which transverse-plane shoulder/limb motion corresponds to internal or external rotation?",
+            opts:["Sagittal plane","Frontal (coronal) plane","Transverse plane","Oblique plane"],
+            ans:2,
+            exp:"Internal/external rotation occurs in the transverse plane about a vertical (superior–inferior) axis." },
+          { id:"R2Q10", diff:"Multi-step",
+            stem:"Both the ASIS and the PSIS are INFERIOR on the right with a positive right standing flexion test. This is most consistent with:",
+            opts:["Right superior shear","Right inferior innominate shear","Right anterior rotation","Right inflare"],
+            ans:1,
+            exp:"When the ASIS and PSIS are both inferior on the same side, the innominate has sheared inferiorly (inferior innominate shear/downslip)." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R3 ===================== */
+  {
+    id: "R3", num: 3, group: "review",
+    title: "Pelvis — Treatment & Muscle Energy",
+    blurb: "Muscle-energy set-ups for innominate rotations, flares, and shears, with the muscle levers used for each.",
+    objectives: [
+      {
+        text: "Select the correct muscle-energy lever for innominate dysfunction.",
+        questions: [
+          { id:"R3Q1", diff:"High-yield",
+            stem:"To correct an ANTERIOR innominate rotation with muscle energy, the patient engages which muscle group against resistance?",
+            opts:["Hip flexors","Hip extensors","Hip adductors","Hip abductors"],
+            ans:1,
+            exp:"Anterior rotation is corrected by engaging the HIP EXTENSORS (e.g., gluteals/hamstrings) to rotate the innominate posteriorly toward neutral." },
+          { id:"R3Q2", diff:"High-yield",
+            stem:"To correct a POSTERIOR innominate rotation with muscle energy, the patient engages:",
+            opts:["Hip extensors","Hip flexors","Hip abductors","Hip rotators"],
+            ans:1,
+            exp:"Posterior rotation is corrected with the HIP FLEXORS (iliopsoas) to rotate the innominate anteriorly back toward neutral." },
+          { id:"R3Q3", diff:"Multi-step",
+            stem:"For a LEFT innominate INFLARE, the muscle-energy correction has the patient engage which muscles?",
+            opts:["Hip adductors","Hip abductors","Hip flexors","Hip extensors"],
+            ans:0,
+            exp:"An inflare (ASIS too medial) is corrected by engaging the HIP ADDUCTORS so the ASIS moves more laterally back toward neutral." },
+          { id:"R3Q4", diff:"Multi-step",
+            stem:"For an OUTFLARE, the patient engages which muscle group to move the ASIS medially?",
+            opts:["Hip adductors","Hip abductors","Hip flexors","Hip extensors"],
+            ans:1,
+            exp:"An outflare (ASIS too lateral) is corrected by engaging the HIP ABDUCTORS, drawing the ASIS more medial toward neutral." },
+          { id:"R3Q5", diff:"Multi-step",
+            stem:"A patient has a positive left standing flexion test, left ASIS superior, and right PSIS superior. To treat with muscle energy you would set up to address the LEFT-sided rotation by:",
+            opts:["Stabilizing the left ASIS while the right hip flexes to its barrier","Stabilizing the right ASIS while the left leg is extended off the table to its barrier","Side-lying with both legs off the table monitoring the lumbosacral junction","Supine with a monitoring hand over the right ASIS, left hip flexed to barrier"],
+            ans:1,
+            exp:"A left posterior innominate (left ASIS superior) is corrected by anterior rotation: stabilize the contralateral (right) ASIS and extend the left leg off the table to engage hip flexors against the barrier." }
+        ]
+      },
+      {
+        text: "Recognize contraindications and treatment selection.",
+        questions: [
+          { id:"R3Q6", diff:"High-yield",
+            stem:"Which of the following is an ABSOLUTE contraindication to HVLA?",
+            opts:["Spondylosis","Herniated disc without progressive deficit","Osteoporosis","Mild hypermobility"],
+            ans:2,
+            exp:"Osteoporosis (along with fracture, malignancy/metastasis, infection, and frank instability) is an absolute contraindication to HVLA at the involved region." },
+          { id:"R3Q7", diff:"Foundational",
+            stem:"A superior innominate shear is most appropriately treated with which technique?",
+            opts:["Counterstrain only","HVLA (with respiratory assistance/traction)","Soft tissue only","No treatment is possible"],
+            ans:1,
+            exp:"Superior innominate shear (upslip) is typically treated with HVLA, often using traction on the leg with respiratory cooperation to reduce the shear." },
+          { id:"R3Q8", diff:"Multi-step",
+            stem:"A patient presents with a right anterior innominate that produces an apparent ipsilateral LONG leg. After ME corrects the rotation, the long-leg appearance should:",
+            opts:["Worsen","Normalize as the innominate returns toward neutral","Become a true anatomic long leg","Be unaffected by treatment"],
+            ans:1,
+            exp:"Innominate rotations cause apparent (functional) leg-length changes; an anterior rotation lengthens the ipsilateral leg. Correcting the rotation normalizes the functional discrepancy." },
+          { id:"R3Q9", diff:"Foundational",
+            stem:"Muscle energy is classified as which type of technique?",
+            opts:["Indirect technique","Direct technique using the patient's own muscle contraction against a counterforce","Thrust technique","Passive positional technique"],
+            ans:1,
+            exp:"Muscle energy is a DIRECT technique: the segment is engaged at the restrictive barrier and the patient contracts against the physician's counterforce, then new slack is taken up (post-isometric relaxation)." },
+          { id:"R3Q10", diff:"Multi-step",
+            stem:"When correcting a pelvic dysfunction with several components (e.g., a flare AND a rotation), the muscle-energy lever for the ROTATION component of a right anterior rotation is provided primarily by the:",
+            opts:["Piriformis","Hip extensors (e.g., hamstrings/gluteals)","Iliopsoas","IT band"],
+            ans:1,
+            exp:"The rotation component of an anterior innominate is corrected with hip EXTENSORS, which rotate the innominate posteriorly. (Flare components use adductors/abductors as separate levers.)" }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R4 ===================== */
+  {
+    id: "R4", num: 4, group: "review",
+    title: "Sacrum — Diagnosis & Treatment",
+    blurb: "Sacral landmarks, the seated flexion test, sulci/ILA/motion testing, naming torsions and unilateral/bilateral dysfunctions, and treatment principles.",
+    objectives: [
+      {
+        text: "Use sacral exam findings to diagnose torsions and unilateral/bilateral dysfunction.",
+        questions: [
+          { id:"R4Q1", diff:"Foundational",
+            stem:"What three categories of findings are needed to diagnose the sacrum?",
+            opts:["ASIS heights, PSIS heights, and a spring test","Sacral sulcus depths, ILA (inferior lateral angle) heights, and a motion test","Leg length, lumbar lordosis, and gait","Hip rotation, knee flexion, and reflexes"],
+            ans:1,
+            exp:"Sacral diagnosis integrates sulcus depths, ILA positions, and a motion test (spring/backward-bending/sphinx), localized by the seated flexion test." },
+          { id:"R4Q2", diff:"Multi-step",
+            stem:"Sulci deeper on the right, ILAs less than a thumb's width apart, and a POSITIVE spring test (no springing) most consistent with:",
+            opts:["Right-on-right forward torsion","Left-on-right backward torsion","Bilateral sacral flexion","Right unilateral flexion"],
+            ans:1,
+            exp:"A deep right sulcus indicates the base rotated toward the left; a positive (non-springing) test indicates a posterior base = a BACKWARD torsion. Rotation left on a right oblique axis = Left-on-Right (L on R)." },
+          { id:"R4Q3", diff:"Multi-step",
+            stem:"ILAs less than a thumb's width apart on exam helps RULE OUT which group of dysfunctions?",
+            opts:["Torsions","Bilaterals","Unilateral sacral shears","Anterior nutations"],
+            ans:2,
+            exp:"A clear inferior ILA on one side (more than a thumb's width apart) suggests a unilateral dysfunction; ILAs within a thumb's width help rule unilaterals OUT, pointing toward torsion/bilateral." },
+          { id:"R4Q4", diff:"Multi-step",
+            stem:"Standing flexion test negative, negative spring test (springs), and no other abnormal findings after a recent delivery best fits:",
+            opts:["Bilateral sacral extension","Bilateral sacral flexion","Left-on-left torsion","Right unilateral extension"],
+            ans:1,
+            exp:"A sacrum that springs (negative spring test) with symmetric findings suggests the base is anterior bilaterally = bilateral sacral FLEXION (forward-nutated base)." },
+          { id:"R4Q5", diff:"Multi-step",
+            stem:"A negative spring test (the base springs freely) with asymmetric findings generally indicates a:",
+            opts:["Backward torsion or bilateral extension","Forward torsion or bilateral flexion","Superior innominate shear","Pubic dysfunction"],
+            ans:1,
+            exp:"A negative (springing) test means the sacral base is anterior → forward torsion (if asymmetric) or bilateral flexion (if symmetric). A positive (non-springing) test means a posterior base → backward torsion or bilateral extension." }
+        ]
+      },
+      {
+        text: "Apply sacral treatment principles and SI screening.",
+        questions: [
+          { id:"R4Q6", diff:"Foundational",
+            stem:"A POSITIVE seated flexion test localizes dysfunction to the:",
+            opts:["Innominate (iliosacral)","Sacrum (sacroiliac), on the positive side","Lumbar spine","Hip"],
+            ans:1,
+            exp:"The seated flexion test screens sacroiliac (sacral) motion; the side moving first/most is positive and localizes the sacral dysfunction. (Standing flexion screens the innominate.)" },
+          { id:"R4Q7", diff:"Multi-step",
+            stem:"A 45-year-old with right LBP has a positive seated flexion test on the right, a shallow sulcus on the left, and ILAs within a thumb's width. The diagnosis is:",
+            opts:["L on L","L on R","R on R","R on L"],
+            ans:2,
+            exp:"A shallow LEFT sulcus means the base is posterior on the left → rotated right; a forward-type pattern on a right oblique axis = Right-on-Right (R on R). ILAs within a thumb's width rule out a unilateral." },
+          { id:"R4Q8", diff:"Multi-step",
+            stem:"Standing flexion test negative, negative spring test, sacral sulci DEEP on the left, and the ILA more than a thumb INFERIOR on the left best fits:",
+            opts:["Left unilateral sacral flexion","Right unilateral extension","R on L","R on R"],
+            ans:0,
+            exp:"A deep sulcus with an inferior ILA on the SAME side that springs (negative spring test) indicates a unilateral sacral FLEXION on that side — here, left unilateral flexion." },
+          { id:"R4Q9", diff:"Multi-step",
+            stem:"A postpartum patient has a negative seated flexion test, increased lumbar curve, and bilaterally restricted sacral-base motion during INHALATION. Muscle energy would have you:",
+            opts:["Contact the sacral base and apply pressure during inhalation","Contact the sacral apex and apply pressure during exhalation","Contact the sacral base and apply pressure during exhalation","Contact the apex and apply pressure during inhalation"],
+            ans:1,
+            exp:"Restricted base motion on inhalation reflects a bilaterally flexed (anterior-base) sacrum that won't extend. You assist extension: contact the sacral APEX and add pressure during EXHALATION to push the base posterior." },
+          { id:"R4Q10", diff:"Multi-step",
+            stem:"For a R-on-R sacral torsion, a common muscle-energy set-up places the patient:",
+            opts:["Supine with both knees to chest","Lying on the RIGHT side (axis side down), torso rotated face-down, legs flexed off the table","Prone with legs extended","Standing in forward flexion"],
+            ans:1,
+            exp:"For a forward (R-on-R) torsion, the patient lies on the side of the oblique axis (right) with the trunk rotated face-down and the legs flexed off the table, using leg drop and respiration to engage the correction." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R5 ===================== */
+  {
+    id: "R5", num: 5, group: "review",
+    title: "Psoas & Piriformis Syndromes",
+    blurb: "Clinical features, key lesions, special tests, and treatment of psoas syndrome and piriformis syndrome.",
+    objectives: [
+      {
+        text: "Recognize psoas syndrome and its key lesion.",
+        questions: [
+          { id:"R5Q1", diff:"High-yield",
+            stem:"Which lesion is classically the KEY lesion that must be addressed to resolve psoas syndrome?",
+            opts:["A sacral torsion","A non-neutral (type II) dysfunction at L1–L2","The piriformis","The hip joint capsule"],
+            ans:1,
+            exp:"Psoas spasm produces a non-neutral type II dysfunction of the upper lumbar spine (classically L1–L2) toward the side of the shorter psoas; treating this key lesion is central to resolving the syndrome." },
+          { id:"R5Q2", diff:"Multi-step",
+            stem:"With a hypertonic/short psoas, rotation and sidebending of the upper lumbar vertebra occur:",
+            opts:["Away from the shorter psoas","Toward the side of the shorter psoas (e.g., L1 FRLSL)","Only in the sacrum","Symmetrically with no sidebending"],
+            ans:1,
+            exp:"The vertebra rotates and sidebends TOWARD the side of the shorter (hypertonic) psoas, producing a type II flexion dysfunction such as L1 FRLSL/FRRSR." },
+          { id:"R5Q3", diff:"Multi-step",
+            stem:"A positive Thomas test on the right in a patient with low back and anterior hip pain indicates tightness of which muscle, and what posture results?",
+            opts:["Hamstring; hip extension","Iliopsoas; a flexed-forward posture","Gluteus maximus; lumbar lordosis","Piriformis; external rotation"],
+            ans:1,
+            exp:"A positive Thomas test indicates a tight iliopsoas (hip flexor). Psoas hypertonicity pulls the patient into a flexed-forward posture and can rotate the affected leg." },
+          { id:"R5Q4", diff:"Foundational",
+            stem:"The iliopsoas inserts on which structure?",
+            opts:["The greater trochanter","The lesser trochanter of the femur","The iliac crest","The ischial tuberosity"],
+            ans:1,
+            exp:"The iliopsoas inserts on the lesser trochanter; the psoas major originates from the T12–L4/5 vertebral bodies, transverse processes, and intervertebral discs." },
+          { id:"R5Q5", diff:"Multi-step",
+            stem:"Psoas syndrome is commonly CONFUSED with which other condition because pain can radiate into the buttock/leg and the patient prefers slight forward flexion?",
+            opts:["Pubic bone dysfunction","Lumbar radiculopathy","Sacral fracture","Greater trochanteric bursitis"],
+            ans:1,
+            exp:"Because psoas syndrome can radiate into the buttock/leg and is eased by slight forward flexion, it is frequently mistaken for lumbar radiculopathy; a careful exam (Thomas test, L1–L2 dysfunction) distinguishes them." }
+        ]
+      },
+      {
+        text: "Recognize piriformis syndrome and its treatment.",
+        questions: [
+          { id:"R5Q6", diff:"Foundational",
+            stem:"In piriformis syndrome, the pain is typically located:",
+            opts:["Contralateral to the tight piriformis","Ipsilateral — same side as the involved piriformis","Bilaterally and symmetric","Only in the foot"],
+            ans:1,
+            exp:"Piriformis syndrome produces ipsilateral buttock pain that can radiate down the posterior thigh from sciatic irritation." },
+          { id:"R5Q7", diff:"Multi-step",
+            stem:"A patient with right buttock pain has symptoms reproduced by flexion, adduction, and internal rotation of the right hip (FAIR), with pain on palpation of the gluteal region. Which is the diagnosis and involved nerve?",
+            opts:["Hamstring syndrome; obturator nerve","Piriformis syndrome; sciatic nerve","Superior cluneal entrapment; cluneal nerve","Meralgia paresthetica; LFCN"],
+            ans:1,
+            exp:"FAIR positioning that reproduces buttock/leg pain plus gluteal tenderness indicates piriformis syndrome compressing the sciatic nerve." },
+          { id:"R5Q8", diff:"Multi-step",
+            stem:"You flex a patient's hip to the chest and INTERNALLY rotate to stretch the piriformis, but they feel little stretch. Why?",
+            opts:["Internal rotation past 90° hip flexion no longer stretches it; you must externally rotate to stretch an external rotator","The piriformis is a hip flexor","Hypermobility prevents stretching","Internal rotation already over-stretched it"],
+            ans:0,
+            exp:"To stretch an external rotator you externally rotate it. (Also, beyond ~90° of hip flexion the piriformis's line of action changes, so internal rotation no longer effectively lengthens it.)" },
+          { id:"R5Q9", diff:"Foundational",
+            stem:"First-line conservative treatment emphasis for piriformis syndrome is:",
+            opts:["Strengthening the hamstrings","Increased stretching of the piriformis (plus addressing pelvic dysfunction)","A wedge cushion when sitting","Immediate surgical release"],
+            ans:1,
+            exp:"Piriformis syndrome is managed by increasing piriformis stretching and treating contributing pelvic somatic dysfunction. (Hamstring strengthening and a wedge cushion are features of hamstring-syndrome management.)" },
+          { id:"R5Q10", diff:"Multi-step",
+            stem:"Hamstring syndrome is distinguished from piriformis syndrome by which triad?",
+            opts:["Pain with sitting, pain with resisted knee flexion at 90° hip flexion, and ischial-tuberosity tenderness","Foot drop, numb 1st web space, and high arches","Night pain, thenar atrophy, positive flick sign","Wrist drop, triceps weakness, sensory loss dorsal hand"],
+            ans:0,
+            exp:"Hamstring syndrome (often in athletes with prior hamstring injury) features the triad of pain with sitting, pain on resisted knee flexion at 90° hip flexion, and tenderness at the ischial tuberosity; treatment includes hamstring strengthening and a wedge cushion." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R6 ===================== */
+  {
+    id: "R6", num: 6, group: "review",
+    title: "Chapman Points & Viscerosomatic Reflexes",
+    blurb: "Chapman point characteristics and locations, sympathetic levels for visceral structures, and the prevertebral ganglia.",
+    objectives: [
+      {
+        text: "Identify Chapman point characteristics and locations.",
+        questions: [
+          { id:"R6Q1", diff:"Foundational",
+            stem:"Which best describes a Chapman point?",
+            opts:["A tender, ropy band of muscle referring pain when pressed","A small, smooth, firm, tender nodule in the deep fascia associated with specific organ dysfunction","A trigger point in the muscle belly with a local twitch response","A bony exostosis"],
+            ans:1,
+            exp:"Chapman points are small, smooth, firm, tender nodules in the deep fascia (anterior and posterior pairs) linked to specific visceral/organ dysfunction." },
+          { id:"R6Q2", diff:"Multi-step",
+            stem:"A patient with right flank pain and hematuria (renal source) would most likely have an anterior Chapman point located:",
+            opts:["At the anterior tip of the 12th rib","One inch superior and one inch lateral to the umbilicus","Two inches superior and one inch lateral to the umbilicus","At the superior edge of the mid-clavicle"],
+            ans:1,
+            exp:"The anterior kidney Chapman point is about one inch superior and one inch lateral to the umbilicus. (The adrenal point is about two inches superior and one inch lateral.)" },
+          { id:"R6Q3", diff:"Multi-step",
+            stem:"A 3-year-old with acute otitis media (red, bulging tympanic membrane) would have an anterior Chapman point at the:",
+            opts:["2nd rib at the sternum","Superior edge of the mid-clavicle","2nd intercostal space","Proximal humerus"],
+            ans:1,
+            exp:"The middle-ear/otitis anterior Chapman point is located along the superior edge of the mid-clavicle." },
+          { id:"R6Q4", diff:"Multi-step",
+            stem:"A patient with sigmoid-colon diverticulosis (LLQ pain) would most likely have an anterior Chapman point at the:",
+            opts:["Periumbilical region","Distal right thigh","Superior aspect of the junction between the left pubic ramus and the ischium","Anterior tip of the right 12th rib"],
+            ans:2,
+            exp:"The sigmoid-colon Chapman point is located at the superior aspect of the junction of the left pubic ramus and ischium (the lower colon points lie low/medial on the left)." },
+          { id:"R6Q5", diff:"Foundational",
+            stem:"The anterior Chapman point for the appendix is found at the:",
+            opts:["Tip of the right 12th rib","Left pubic ramus","One inch above the umbilicus","Mid-clavicle"],
+            ans:0,
+            exp:"The appendix Chapman point is located at the tip of the right 12th rib." }
+        ]
+      },
+      {
+        text: "Apply viscerosomatic sympathetic levels and prevertebral ganglia.",
+        questions: [
+          { id:"R6Q6", diff:"High-yield",
+            stem:"A patient with GI bloating/indigestion shows tissue texture changes at T5–T9. Which prevertebral ganglion is most involved (foregut)?",
+            opts:["Superior mesenteric ganglion","Celiac ganglion","Inferior mesenteric ganglion","Sacral ganglion"],
+            ans:1,
+            exp:"Foregut structures (stomach, liver, pancreas, proximal duodenum) relay through the celiac ganglion at sympathetic levels ~T5–T9." },
+          { id:"R6Q7", diff:"Multi-step",
+            stem:"Warmth and bogginess at T10–T11 in a patient with bowel distention reflects which reflex?",
+            opts:["Somatovisceral reflex","Viscerosomatic reflex","Somato-somatic reflex","Viscero-visceral reflex"],
+            ans:1,
+            exp:"Visceral pathology producing palpable somatic (paraspinal) tissue changes at the corresponding sympathetic level is a viscerosomatic reflex (here, midgut at ~T10–T11)." },
+          { id:"R6Q8", diff:"Multi-step",
+            stem:"A kidney stone in the DISTAL left ureter would most likely produce somatic changes at which sympathetic levels?",
+            opts:["L3–L5","T1–T4","T10–T11","T12–L1"],
+            ans:3,
+            exp:"The distal ureter's sympathetic supply is around T12–L1; the kidney/upper ureter is around T10–T11. (Choose the most distal level for the distal ureter.)" },
+          { id:"R6Q9", diff:"Multi-step",
+            stem:"Treating sinus congestion with facial effleurage addresses a region whose sympathetic input is:",
+            opts:["T2–T7","T1–T4","T10–T11","T10–L2"],
+            ans:1,
+            exp:"Head and neck structures (including the sinuses) receive sympathetic input from T1–T4." },
+          { id:"R6Q10", diff:"Multi-step",
+            stem:"A patient with uterine fibroids would most likely show sympathetic somatic changes at which level?",
+            opts:["T5","T8","T12","Sacrum"],
+            ans:2,
+            exp:"Uterine sympathetic supply is approximately T10–L2; among the options, T12 falls within that range. (Parasympathetic supply to pelvic organs is S2–S4.)" }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R7 ===================== */
+  {
+    id: "R7", num: 7, group: "review",
+    title: "Spine Biomechanics & Fryette's Principles",
+    blurb: "Facet orientation, Fryette types I–III, the Rule of Threes, segmental landmarks, and diagnosing type II dysfunctions.",
+    objectives: [
+      {
+        text: "Apply facet orientation and Fryette's principles.",
+        questions: [
+          { id:"R7Q1", diff:"Foundational",
+            stem:"Fryette TYPE I (neutral/group) mechanics couple sidebending and rotation:",
+            opts:["To the same side","To opposite sides","Only in flexion","Only in the cervical spine"],
+            ans:1,
+            exp:"Type I (neutral, group of ≥3 segments) couples sidebending and rotation to OPPOSITE sides. Type II (non-neutral, single segment) couples them to the SAME side." },
+          { id:"R7Q2", diff:"Multi-step",
+            stem:"Type II mechanics are best characterized by:",
+            opts:["A group curve in neutral with opposite SB/rotation","A single segment in flexion or extension with SB and rotation to the SAME side","Motion in one plane never affecting another","Pure translation only"],
+            ans:1,
+            exp:"Type II involves one (or two) segments in hyperflexion/hyperextension with sidebending and rotation coupled to the SAME side." },
+          { id:"R7Q3", diff:"Foundational",
+            stem:"Fryette's THIRD principle states that:",
+            opts:["Rotation always equals sidebending","Initiating motion in one plane modifies (restricts) motion in the other two planes","Neutral mechanics never occur","The lumbar spine cannot rotate"],
+            ans:1,
+            exp:"The third principle (Nelson) states that introducing motion in one plane modifies/limits motion available in the other two planes (e.g., locking sidebending restricts rotation and flexion/extension)." },
+          { id:"R7Q4", diff:"Foundational",
+            stem:"The superior facets of the THORACIC spine are oriented:",
+            opts:["BUM (backward, upward, medial)","BUL (backward, upward, lateral)","BM (backward, medial)","Forward and inferior"],
+            ans:1,
+            exp:"Thoracic superior facets are oriented backward, upward, lateral (BUL). Cervical = BUM; lumbar = BM. Facet orientation determines the region's preferred motion." }
+        ]
+      },
+      {
+        text: "Apply the Rule of Threes and diagnose type II dysfunctions.",
+        questions: [
+          { id:"R7Q5", diff:"Multi-step",
+            stem:"By the Rule of Threes, the transverse processes of T4–T6 are located where relative to the spinous process of the SAME vertebra?",
+            opts:["At the same level","One-half segment above the SP","One full segment above the SP","One segment below the SP"],
+            ans:1,
+            exp:"Rule of Threes: T1–3 TP at the same level as the SP; T4–6 TP one-half segment above; T7–9 TP one full segment above; T10 like T7–9; T11 like T4–6; T12 like T1–3." },
+          { id:"R7Q6", diff:"Multi-step",
+            stem:"At the T12 spinous process, the transverse processes are located:",
+            opts:["One segment below","One segment above","At the same level","One-half segment above"],
+            ans:2,
+            exp:"T12 follows the T1–3 pattern: the transverse processes are at the same level as the spinous process." },
+          { id:"R7Q7", diff:"High-yield",
+            stem:"The right transverse process of T12 is posterior and becomes MORE posterior in the sphinx (extension) position but symmetric in flexion. The diagnosis is:",
+            opts:["T12 N RR SL","T12 E RR SL","T12 F RR SR","T12 E RL SL"],
+            ans:2,
+            exp:"Asymmetry worse in EXTENSION and resolving in FLEXION means the segment prefers flexion → a flexion (F) dysfunction. A posterior right TP indicates right rotation, and type II couples sidebending to the same side → T12 F RR SR." },
+          { id:"R7Q8", diff:"Foundational",
+            stem:"Which bony landmark corresponds to the L4–L5 interspace?",
+            opts:["The spine of the scapula","The inferior angle of the scapula","The top of the iliac crests","The 12th rib"],
+            ans:2,
+            exp:"The iliac crests mark the L4–L5 interspace. The spine of the scapula ≈ T3, and the inferior angle of the scapula ≈ T7." },
+          { id:"R7Q9", diff:"Foundational",
+            stem:"The PRIMARY motion of the lumbar spine and of the thoracic spine, respectively, are:",
+            opts:["Rotation; flexion/extension","Flexion/extension; rotation","Sidebending; sidebending","Rotation; rotation"],
+            ans:1,
+            exp:"Lumbar primary motion is flexion/extension (sagittal plane); thoracic primary motion is rotation (transverse plane), with sidebending limited by the ribs." },
+          { id:"R7Q10", diff:"Multi-step",
+            stem:"A single-segment dysfunction with the right transverse process of L3 posterior indicates rotation and sidebending:",
+            opts:["Left rotation, right sidebending","Right rotation, right sidebending (type II)","Right rotation, left sidebending","No rotation"],
+            ans:1,
+            exp:"A posterior right TP means right rotation; a single-segment (type II) dysfunction couples sidebending to the same side → right rotation, right sidebending." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R8 ===================== */
+  {
+    id: "R8", num: 8, group: "review",
+    title: "Thoracolumbar Anatomy & Muscles",
+    blurb: "Quadratus lumborum and iliopsoas anatomy/actions, hypertonic dysfunction patterns, vertebral landmarks, and thoracolumbar fascia.",
+    objectives: [
+      {
+        text: "Identify thoracolumbar muscle anatomy and hypertonic dysfunction patterns.",
+        questions: [
+          { id:"R8Q1", diff:"Foundational",
+            stem:"The quadratus lumborum originates from the inferior border of the 12th rib and inserts on all of the following EXCEPT:",
+            opts:["The transverse processes of L1–L4","The iliolumbar ligament","The posterior iliac crest","The lesser trochanter of the femur"],
+            ans:3,
+            exp:"The QL inserts on the L1–L4 transverse processes, the iliolumbar ligament, and the posterior iliac crest. The lesser trochanter is the insertion of the iliopsoas." },
+          { id:"R8Q2", diff:"Multi-step",
+            stem:"A hypertonic quadratus lumborum can produce all of the following EXCEPT:",
+            opts:["An inhalation somatic dysfunction of rib 12","A superior innominate shear","An ipsilateral short leg","An anterior innominate rotation from hip flexion"],
+            ans:3,
+            exp:"Hypertonic QL elevates the 12th rib (inhalation SD), can cause a superior innominate shear, and an ipsilateral functional short leg. Anterior innominate rotation from hip flexion is the iliopsoas pattern." },
+          { id:"R8Q3", diff:"Multi-step",
+            stem:"Which muscle is the major hip flexor whose hypertonicity can produce an ANTERIOR innominate dysfunction?",
+            opts:["Gluteus maximus","Biceps femoris","Iliopsoas","Piriformis"],
+            ans:2,
+            exp:"The iliopsoas is a major hip flexor; when hypertonic it pulls the innominate anteriorly. (Anterior-thigh muscles pull the pelvis anterior; posterior-thigh muscles pull it posterior.)" },
+          { id:"R8Q4", diff:"Foundational",
+            stem:"The quadratus lumborum's actions include all of the following EXCEPT:",
+            opts:["Fixing the 12th rib during respiration","Lateral flexion (sidebending) of the trunk","Hip 'hiking' (elevating the pelvis)","Knee extension"],
+            ans:3,
+            exp:"The QL fixes the 12th rib, laterally flexes the trunk, and acts as a hip hiker. It has no action at the knee." },
+          { id:"R8Q5", diff:"Multi-step",
+            stem:"The psoas major originates from which structures?",
+            opts:["The lesser trochanter of the femur","The T12–L4/5 vertebral bodies, transverse processes, and intervertebral discs","The T9–T11 transverse processes only","The iliac crest"],
+            ans:1,
+            exp:"The psoas major originates from the T12–L4/5 vertebral bodies, transverse processes, and intervertebral discs and inserts on the lesser trochanter." }
+        ]
+      },
+      {
+        text: "Identify vertebral landmarks and thoracolumbar structure.",
+        questions: [
+          { id:"R8Q6", diff:"Foundational",
+            stem:"The spine of the scapula corresponds to which vertebral level?",
+            opts:["T3","T7","T12","L4"],
+            ans:0,
+            exp:"The spine of the scapula ≈ T3; the inferior angle of the scapula ≈ T7; the iliac crests ≈ L4–L5." },
+          { id:"R8Q7", diff:"Foundational",
+            stem:"The inferior angle of the scapula corresponds to which vertebral level?",
+            opts:["T3","T7","T10","L1"],
+            ans:1,
+            exp:"The inferior angle of the scapula is at approximately T7." },
+          { id:"R8Q8", diff:"Multi-step",
+            stem:"Which thoracolumbar abnormality is most likely to compromise respiration?",
+            opts:["Exaggerated cervical lordosis","Exaggerated thoracic kyphosis","Exaggerated lumbar lordosis","Loss of lumbar lordosis"],
+            ans:1,
+            exp:"Exaggerated thoracic kyphosis restricts thoracic cage expansion and can compromise respiration." },
+          { id:"R8Q9", diff:"Foundational",
+            stem:"The 12th rib characteristically wraps in which direction toward its vertebra?",
+            opts:["Supero-medially toward T12","Infero-laterally toward L2","Straight anteriorly to the sternum","Toward the iliac crest"],
+            ans:0,
+            exp:"The 12th rib wraps supero-medially toward the T12 vertebra (a useful landmark for locating T12/QL attachments)." },
+          { id:"R8Q10", diff:"Multi-step",
+            stem:"Iliopsoas hypertonicity initially causes the lumbar spine to do what, contributing to psoas syndrome?",
+            opts:["Extend in a group curve","Flex, with a non-neutral type II dysfunction at L1/L2","Rotate without sidebending","Remain unchanged"],
+            ans:1,
+            exp:"Initial psoas spasm flexes the lumbar spine and produces a type II (non-neutral) dysfunction at L1/L2 toward the side of the shorter psoas, with posterior rotation of the innominate." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R9 ===================== */
+  {
+    id: "R9", num: 9, group: "review",
+    title: "Lumbar Radiculopathy & Low Back Pain",
+    blurb: "Nerve-root myotomes/dermatomes/reflexes, disc–root relationships, exam tests, surgical red flags, and OMT/management of LBP.",
+    objectives: [
+      {
+        text: "Localize lumbosacral nerve-root levels.",
+        questions: [
+          { id:"R9Q1", diff:"High-yield",
+            stem:"Which findings localize to the L4 nerve root?",
+            opts:["Achilles reflex, plantarflexion weakness, lateral-foot numbness","Patellar reflex, tibialis-anterior (dorsiflexion/inversion) weakness, medial-leg numbness","No reflex, big-toe extension weakness, dorsum-of-foot numbness","Triceps reflex, wrist-flexion weakness"],
+            ans:1,
+            exp:"L4: patellar (knee) reflex, tibialis anterior (foot dorsiflexion/inversion), and medial leg sensation. L5: extensor hallucis longus/big-toe extension, dorsum of foot, NO reflex. S1: Achilles reflex, peroneals/plantarflexion, lateral foot." },
+          { id:"R9Q2", diff:"Multi-step",
+            stem:"A patient has weak big-toe extension, numbness over the dorsum of the foot, and NO change in deep tendon reflexes. Which root is involved?",
+            opts:["L4","L5","S1","S2"],
+            ans:1,
+            exp:"L5 supplies the extensor hallucis longus (big-toe extension) and the dorsum of the foot and has no associated deep tendon reflex." },
+          { id:"R9Q3", diff:"Multi-step",
+            stem:"A diminished Achilles reflex with weak plantarflexion and lateral-foot numbness localizes to which root?",
+            opts:["L3","L4","L5","S1"],
+            ans:3,
+            exp:"S1: Achilles reflex, peroneus longus/brevis and plantarflexion (toe-walking), and lateral-foot sensation." },
+          { id:"R9Q4", diff:"High-yield",
+            stem:"A paramedian L4–L5 disc herniation most commonly compresses which (traversing) nerve root?",
+            opts:["L3 root","L4 root","L5 root","S1 root"],
+            ans:2,
+            exp:"A paramedian/posterolateral disc herniation typically spares the exiting root and compresses the TRAVERSING (lower-numbered exit) root: L4–L5 disc → L5 root; L5–S1 disc → S1 root." }
+        ]
+      },
+      {
+        text: "Evaluate and manage low back pain.",
+        questions: [
+          { id:"R9Q5", diff:"Foundational",
+            stem:"A positive straight-leg-raise test most directly indicates:",
+            opts:["Hip osteoarthritis","Lumbosacral nerve-root tension (e.g., L5/S1)","Sacroiliac fusion","Quadriceps weakness"],
+            ans:1,
+            exp:"A positive SLR reproduces radicular pain from nerve-root tension/irritation, classically of the L5 or S1 roots." },
+          { id:"R9Q6", diff:"High-yield",
+            stem:"Which is a relative INDICATION for surgery in low back pain/radiculopathy?",
+            opts:["First episode of mechanical LBP","Cauda equina syndrome or progressive neurologic deficit","Mild paraspinal tenderness","A single positive Chapman point"],
+            ans:1,
+            exp:"Surgery is reserved for the minority with cauda equina syndrome, progressive neurologic deficit despite treatment, or intolerable pain unresponsive to conservative care." },
+          { id:"R9Q7", diff:"Foundational",
+            stem:"Which set of OMT approaches is appropriate for uncomplicated mechanical LBP/radiculopathy?",
+            opts:["Only HVLA at every segment","Myofascial release, counterstrain, muscle energy, and (when appropriate) HVLA","No manual treatment is ever indicated","Traction only"],
+            ans:1,
+            exp:"OMT options include MFR, counterstrain, muscle energy, and HVLA when not contraindicated; these are combined with NSAIDs/analgesics and activity modification." },
+          { id:"R9Q8", diff:"Multi-step",
+            stem:"A 45-year-old laborer with LBP and groin tightness who is most comfortable bending slightly forward and has pain radiating down the leg is MOST often confused with which diagnosis (but is actually psoas syndrome)?",
+            opts:["Pubic dysfunction","Lumbar radiculopathy","Sacral fracture","Greater trochanteric bursitis"],
+            ans:1,
+            exp:"Psoas syndrome (forward-flexed posture, leg radiation, L1–L2 dysfunction, positive Thomas test) is commonly confused with lumbar radiculopathy." },
+          { id:"R9Q9", diff:"Multi-step",
+            stem:"A patient with an unrelieved short leg and chronic LBP that hurts to fully extend, radiating to the groin, would most likely have an upper-lumbar type II dysfunction such as:",
+            opts:["L1 flexed, sidebent and rotated left","L3–4 extended group curve","L5 neutral, rotated right","T8 flexed, rotated left"],
+            ans:0,
+            exp:"Chronic psoas-pattern dysfunction is a type II flexion lesion at the upper lumbars (e.g., L1 FRLSL), reflecting the shorter psoas pulling the segment into flexion, sidebending, and rotation toward that side." },
+          { id:"R9Q10", diff:"Foundational",
+            stem:"Pharmacologic management of acute mechanical LBP commonly starts with:",
+            opts:["Long-term opioids first-line","NSAIDs/analgesics with activity modification","Immediate corticosteroid taper for all patients","No medication is ever used"],
+            ans:1,
+            exp:"First-line care is typically NSAIDs/analgesics plus activity modification and OMT; muscle relaxants, neuropathic agents, or short steroid courses are added selectively." }
+        ]
+      }
+    ]
+  },
+
+  /* ===================== REVIEW R10 ===================== */
+  {
+    id: "R10", num: 10, group: "review",
+    title: "Scoliosis, Short Leg & Spondylolisthesis",
+    blurb: "Scoliosis naming and Cobb angle, short-leg compensation and lift therapy, spondylolisthesis types/grades, and related clinical syndromes.",
+    objectives: [
+      {
+        text: "Classify scoliosis and short-leg syndrome.",
+        questions: [
+          { id:"R10Q1", diff:"High-yield",
+            stem:"A scoliotic curve is convex on the RIGHT side and located in the thoracic spine. How is it named?",
+            opts:["Thoracic levoscoliosis","Thoracic dextroscoliosis","Lumbar levoscoliosis","Rotoscoliosis"],
+            ans:1,
+            exp:"Scoliosis is named by the side of the convexity and the region. A right-convex thoracic curve is a thoracic DEXTROscoliosis." },
+          { id:"R10Q2", diff:"Foundational",
+            stem:"Which measurement quantifies the magnitude of a scoliotic curve on radiographs?",
+            opts:["Ferguson angle of the pelvis","Cobb angle","Meyerding grade","Risser sign"],
+            ans:1,
+            exp:"The Cobb angle measures scoliotic curve magnitude. (The Risser sign grades skeletal maturity; Meyerding grades spondylolisthesis slippage.)" },
+          { id:"R10Q3", diff:"Multi-step",
+            stem:"In a right thoracic scoliosis, which structures become stressed due to the curvature?",
+            opts:["Anterior longitudinal ligament only","Iliolumbar and sacroiliac ligaments on the right (convex) side","Iliolumbar/SI ligaments on the left side","Intervertebral discs of the cervical spine"],
+            ans:1,
+            exp:"The convex-side iliolumbar and sacroiliac ligaments are stressed by the pull of the curvature; in a right (dextro) curve, that is the right side." },
+          { id:"R10Q4", diff:"Multi-step",
+            stem:"In EARLY compensation for a short leg, the sacral base tilts:",
+            opts:["Toward the short leg","Away from the short leg","Anteriorly only","It does not change"],
+            ans:0,
+            exp:"In early compensation the sacral base tilts TOWARD the short-leg side as part of the body's adaptive response." }
+        ]
+      },
+      {
+        text: "Apply lift therapy guidelines and spondylolisthesis classification.",
+        questions: [
+          { id:"R10Q5", diff:"High-yield",
+            stem:"For a FRAGILE patient (e.g., osteoporosis/arthritis), the recommended STARTING heel-lift height and progression is:",
+            opts:["3.0 mm, increasing 3 mm/week","1.5 mm, increasing 1.5 mm every 2 weeks","5.0 mm immediately","Full correction at once"],
+            ans:1,
+            exp:"Fragile patients start at 1.5 mm and increase by 1.5 mm every 2 weeks. Flexible patients with mild–moderate strain may start at 3.0 mm with up to ~3 mm every 2 weeks." },
+          { id:"R10Q6", diff:"Multi-step",
+            stem:"A patient with a SUDDEN loss of leg length on one side who previously had a level sacral base should be treated by:",
+            opts:["Gradually adding tiny increments only","Lifting only half the lost length","Lifting the FULL amount that was lost","Avoiding lift therapy entirely"],
+            ans:2,
+            exp:"With an acute loss of length in a previously level patient, lifting the full amount that was lost restores prior balance and function." },
+          { id:"R10Q7", diff:"Multi-step",
+            stem:"For anatomic short-leg syndrome, the recommended approach is:",
+            opts:["Surgery first for everyone","OMT to prepare the tissues, followed by heel-lift therapy","Heel lift only, no OMT","Observation indefinitely"],
+            ans:1,
+            exp:"Anatomic short leg is managed with OMT to prepare the somatic tissues to accept realignment, complemented by graded heel-lift therapy." },
+          { id:"R10Q8", diff:"High-yield",
+            stem:"Which type of spondylolisthesis is caused by a pars interarticularis defect and is most common in young athletes?",
+            opts:["Type I dysplastic","Type II isthmic","Type III degenerative","Type IV traumatic"],
+            ans:1,
+            exp:"Type II (isthmic) spondylolisthesis results from a pars interarticularis defect (fracture/elongation) and is the most common type, often in young athletes. Type I is dysplastic/congenital; Type III degenerative (older); Type IV traumatic; Type V pathologic." },
+          { id:"R10Q9", diff:"Multi-step",
+            stem:"Osteopathic management of spondylolisthesis includes all of the following EXCEPT:",
+            opts:["Reducing lumbar lordosis and balancing the pelvis/sacrum","Soft tissue, counterstrain, and myofascial release","HVLA directed at the lumbosacral junction","Indirect techniques and addressing hamstrings/diaphragm"],
+            ans:2,
+            exp:"OMT aims to reduce lumbar lordosis, balance the pelvis/sacrum, and use gentle techniques; HVLA at the lumbosacral junction should be AVOIDED in spondylolisthesis." },
+          { id:"R10Q10", diff:"Multi-step",
+            stem:"Which statement best distinguishes acute compartment syndrome from chronic exertional compartment syndrome (CECS)?",
+            opts:["Acute is a surgical emergency (5 Ps, fasciotomy); CECS is exertional, relieved by rest and confirmed by compartment-pressure measurement","Both are treated identically with rest","CECS is the emergency requiring fasciotomy","Acute compartment syndrome only occurs with exercise"],
+            ans:0,
+            exp:"Acute compartment syndrome is a surgical emergency (pain, pallor, paresthesia, pulselessness, paralysis) treated with fasciotomy. CECS presents with exertional pain relieved by rest and is confirmed by measuring compartment pressures." }
+        ]
+      }
+    ]
+  },
+
+  ]
+};
+
+</script>
+
+<script>
+/* ============================================================
+   OPP III Quiz Engine
+   ============================================================ */
+const STORE_KEY = "opp3_quiz_v1";
+const POINTS = {Foundational:10,"Multi-step":15,"High-yield":20};
+const DYK = [
+  "Name a rib dysfunction for its position of EASE: pain on inhalation = an exhalation dysfunction.",
+  "BITE rule — treat the Bottom rib first for Inhaled dysfunctions and the Top rib first for Exhaled.",
+  "Carpal tunnel SPARES the thenar eminence; proximal (pronator teres) median entrapment involves it.",
+  "OA = Opposite Always: at C0–C1 sidebending and rotation occur in opposite directions.",
+  "Neurapraxia (myelin) → axonotmesis (myelin+axon, regrows) → neurotmesis (+connective tissue, no regrowth).",
+  "Cervical facets are BUM, thoracic BUL, lumbar BM — orientation sets each region's preferred motion.",
+  "CRPS II = causalgia (major nerve damage); CRPS I = RSD (no major nerve damage).",
+  "Needle EMG is the gold standard for radiculopathy; MRI is the imaging of choice.",
+  "Saturday-night palsy = radial nerve at the spiral groove → wrist drop.",
+  "Standing flexion test screens the innominate; seated flexion test screens the sacrum.",
+  "Peroneal nerve injury → foot drop → trouble HEEL-walking; tibial injury → trouble TOE-walking.",
+  "Kidney Chapman point: ~1 inch superior + 1 inch lateral to the umbilicus.",
+  "Fryette Type I = neutral group, SB & rotation opposite; Type II = single segment, SB & rotation same side.",
+  "Rule of Threes: T7–T9 spinous processes sit one full segment below their transverse processes.",
+  "Serratus anterior is the muscle-energy lever for exhalation dysfunctions of ribs 6–10.",
+  "Osteoporosis is an ABSOLUTE contraindication to HVLA.",
+  "Myelopathy = UMN signs: broad-based unsteady gait and a positive Babinski.",
+  "Isthmic (Type II) spondylolisthesis = pars interarticularis defect, common in young athletes.",
+  "A positive (non-springing) sacral spring test means a posterior base → backward torsion or bilateral extension.",
+  "Meralgia paresthetica = lateral femoral cutaneous nerve entrapped under the inguinal ligament."
+];
+const ACHIEVEMENTS = [
+  {id:"first",ico:"🩺",t:"First Incision",d:"Answer your first question",test:s=>s.answered>=1},
+  {id:"ten",ico:"🦴",t:"Bonesetter",d:"Get 10 questions correct",test:s=>s.correct>=10},
+  {id:"streak5",ico:"🔥",t:"On a Roll",d:"5-answer streak",test:s=>s.bestStreak>=5},
+  {id:"streak10",ico:"⚡",t:"Unstoppable",d:"10-answer streak",test:s=>s.bestStreak>=10},
+  {id:"fifty",ico:"📚",t:"Half-Cadaver",d:"Answer 50 questions",test:s=>s.answered>=50},
+  {id:"perfectlec",ico:"🎯",t:"Clean Sweep",d:"Finish a lecture with 100% correct",test:s=>s.perfectLecture},
+  {id:"newdone",ico:"🧠",t:"New Material Master",d:"Answer every new-lecture question",test:s=>s.newDone},
+  {id:"hundred",ico:"💯",t:"Centurion",d:"Answer 100 questions",test:s=>s.answered>=100},
+  {id:"reviewdone",ico:"🏛️",t:"Comprehensive",d:"Answer every review question",test:s=>s.reviewDone},
+  {id:"all",ico:"👑",t:"Board Ready",d:"Answer all 190 questions",test:s=>s.answered>=s.total}
+];
+
+let DATA = JSON.parse(JSON.stringify(window.QUIZ_DATA));
+let state = load();
+let current = DATA.lectures[0].id;
+let reviewMode = false;
+let editMode = false;
+let dykIdx = Math.floor(Math.random()*DYK.length);
+let editTarget = null; // {lecId, objIdx, qIdx} or null for add
+
+/* ---------- persistence ---------- */
+function blankState(){
+  return {progress:{},score:0,streak:0,bestStreak:0,lives:3,pointsToday:0,day:today(),
+          fast:false,ach:{},custom:null};
+}
+function today(){return new Date().toISOString().slice(0,10);}
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return blankState();
+    const s = Object.assign(blankState(), JSON.parse(raw));
+    if(s.day!==today()){s.day=today();s.pointsToday=0;}
+    if(s.custom){ applyCustom(s.custom); }
+    return s;
+  }catch(e){ return blankState(); }
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+/* custom data overlay (edits/adds/deletes) stored as full lectures snapshot */
+function applyCustom(custom){
+  try{ if(custom && custom.lectures){ DATA = JSON.parse(JSON.stringify(custom)); } }catch(e){}
+}
+function snapshotCustom(){ state.custom = JSON.parse(JSON.stringify(DATA)); }
+
+/* ---------- helpers ---------- */
+function allQuestions(){
+  const out=[];
+  for(const lec of DATA.lectures)for(const o of lec.objectives)for(const q of o.questions)
+    out.push({lec,obj:o,q});
+  return out;
+}
+function lecQuestions(lec){const out=[];for(const o of lec.objectives)for(const q of o.questions)out.push(q);return out;}
+function lecById(id){return DATA.lectures.find(l=>l.id===id);}
+function countAnswered(lec){return lecQuestions(lec).filter(q=>state.progress[q.id]).length;}
+function totalQuestions(){return allQuestions().length;}
+
+/* ---------- stats / achievements ---------- */
+function computeStats(){
+  const aq = allQuestions();
+  const answered = aq.filter(x=>state.progress[x.q.id]).length;
+  const correct = aq.filter(x=>state.progress[x.q.id]&&state.progress[x.q.id].correct).length;
+  const newQ = aq.filter(x=>x.lec.group==="new");
+  const revQ = aq.filter(x=>x.lec.group==="review");
+  const newDone = newQ.every(x=>state.progress[x.q.id]);
+  const reviewDone = revQ.every(x=>state.progress[x.q.id]);
+  let perfectLecture=false;
+  for(const lec of DATA.lectures){
+    const qs=lecQuestions(lec);
+    if(qs.length && qs.every(q=>state.progress[q.id]) && qs.every(q=>state.progress[q.id].correct)){perfectLecture=true;break;}
+  }
+  return {answered,correct,total:aq.length,bestStreak:state.bestStreak,
+          newDone,reviewDone,perfectLecture};
+}
+function checkAchievements(){
+  const s=computeStats();
+  for(const a of ACHIEVEMENTS){
+    if(!state.ach[a.id] && a.test(s)){
+      state.ach[a.id]=true;
+      toast(a.ico+" Achievement: "+a.t,"gold");
+    }
+  }
+}
+
+/* ---------- rendering ---------- */
+function renderStats(){
+  const s=computeStats();
+  const pct = s.answered? Math.round(s.correct/s.answered*100):0;
+  const livesStr = "🦴".repeat(Math.max(0,state.lives)) || "—";
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="v">${state.score}</div><div class="l">Score</div></div>
+    <div class="stat"><div class="v">${state.streak}🔥</div><div class="l">Streak</div></div>
+    <div class="stat"><div class="v lives">${livesStr}</div><div class="l">Lives</div></div>
+    <div class="stat"><div class="v">${s.answered}</div><div class="l">Answered</div></div>
+    <div class="stat"><div class="v">${pct}%</div><div class="l">Correct</div></div>
+    <div class="stat"><div class="v">${state.pointsToday}</div><div class="l">Today</div></div>`;
+  const op = s.total? Math.round(s.answered/s.total*100):0;
+  document.getElementById("overall-pct").textContent = op+"%";
+  document.getElementById("overall-bar").style.width = op+"%";
+  document.getElementById("wrong-count").textContent =
+    allQuestions().filter(x=>state.progress[x.q.id]&&!state.progress[x.q.id].correct).length;
+}
+function lecBtnHTML(lec){
+  const qs=lecQuestions(lec);const ans=countAnswered(lec);
+  const done=ans===qs.length&&qs.length>0;
+  return `<button class="lec-btn ${lec.id===current&&!reviewMode?'active':''} ${done?'done':''}" data-lec="${lec.id}">
+    <span class="lec-num">${lec.num}</span>
+    <span class="lec-meta"><span class="lec-title">${esc(lec.title)}</span>
+      <span class="lec-prog">${ans}/${qs.length} answered</span></span>
+    <span class="dot"></span></button>`;
+}
+function renderSidebar(){
+  document.getElementById("lec-list-new").innerHTML =
+    DATA.lectures.filter(l=>l.group==="new").map(lecBtnHTML).join("");
+  document.getElementById("lec-list-review").innerHTML =
+    DATA.lectures.filter(l=>l.group==="review").map(lecBtnHTML).join("");
+  document.querySelectorAll(".lec-btn").forEach(b=>b.onclick=()=>{reviewMode=false;current=b.dataset.lec;renderAll();window.scrollTo({top:0,behavior:'smooth'});});
+}
+function renderAchievements(){
+  document.getElementById("ach-list").innerHTML = ACHIEVEMENTS.map(a=>`
+    <div class="ach ${state.ach[a.id]?'got':''}"><span class="ico">${a.ico}</span>
+      <span><span class="a-t">${a.t}</span><br><span class="a-d">${a.d}</span></span></div>`).join("");
+}
+function renderDYK(){
+  document.getElementById("dyk-text").textContent = DYK[dykIdx];
+  document.getElementById("dyk-count").textContent = `Fact ${dykIdx+1} of ${DYK.length}`;
+}
+
+function optHTML(q,i,rec){
+  let cls="opt";let dis="";
+  if(rec){
+    dis="disabled";
+    if(i===q.ans)cls+=" correct";
+    else if(i===rec.chosen)cls+=" wrong";
+    else cls+=" dim";
+  }
+  return `<button class="${cls}" ${dis} data-opt="${i}">
+    <span class="ltr">${String.fromCharCode(65+i)}</span><span>${esc(q.opts[i])}</span></button>`;
+}
+function questionHTML(lec,objIdx,qIdx,q){
+  const rec=state.progress[q.id];
+  const aClass = rec? (rec.correct?"answered-correct":"answered-wrong"):"";
+  const collapse = rec && rec.correct && state.fast;     // fast mode hides correct explanations
+  let expCls = rec? (rec.correct?("exp ok"+(collapse?"":" show")):"exp no show") : "exp";
+  let verdict = rec? (rec.correct?(collapse?"Correct · tap to see why":"Correct"):"Incorrect — answer: "+String.fromCharCode(65+q.ans)) : "";
+  const opts=q.opts.map((_,i)=>optHTML(q,i,rec)).join("");
+  const editBtn = editMode? `<button class="q-edit" data-edit="${lec.id}|${objIdx}|${qIdx}">edit this question</button>`:"";
+  return `<div class="q ${aClass}" id="qc-${q.id}" data-qid="${q.id}">
+    <div class="q-top"><div class="q-stem">${esc(q.stem)}</div><span class="diff ${q.diff}">${q.diff}</span></div>
+    <div class="opts">${opts}</div>
+    <div class="${expCls}"><span class="verdict">${verdict}</span><b>Explanation.</b> ${esc(q.exp)}</div>
+    ${editBtn}
+  </div>`;
+}
+function renderMain(){
+  const main=document.getElementById("main");
+  if(reviewMode){ renderReview(); return; }
+  const lec=lecById(current);
+  const qs=lecQuestions(lec);const ans=countAnswered(lec);
+  const corr=qs.filter(q=>state.progress[q.id]&&state.progress[q.id].correct).length;
+  const tagCls = lec.group==="review"?"lec-tag review":"lec-tag";
+  const tagTxt = lec.group==="review"?"Comprehensive Review · OPP I & II":"New Material · OPP III";
+  let html = `
+    <div class="edit-banner ${editMode?'show':''}" id="edit-banner">✎ Edit mode on — click “edit this question” under any question, or use ＋ Add.</div>
+    <div class="lec-head">
+      <span class="${tagCls}">${tagTxt}</span>
+      <h2>${esc(lec.title)}</h2>
+      <p class="blurb">${esc(lec.blurb)}</p>
+      <div class="mini-stats">
+        <span class="ms"><b>${qs.length}</b> questions</span>
+        <span class="ms"><b>${ans}</b> answered</span>
+        <span class="ms"><b>${corr}</b> correct</span>
+        <span class="ms"><b>${ans?Math.round(corr/ans*100):0}%</b> accuracy</span>
+      </div>
+    </div>`;
+  lec.objectives.forEach((o,oi)=>{
+    html += `<div class="obj"><div class="obj-h"><span class="oi">${oi+1}</span><span class="ot">${esc(o.text)}</span></div>`;
+    o.questions.forEach((q,qi)=>{ html += questionHTML(lec,oi,qi,q); });
+    html += `</div>`;
+  });
+  const idx=DATA.lectures.findIndex(l=>l.id===current);
+  const prev=DATA.lectures[idx-1], next=DATA.lectures[idx+1];
+  html += `<div class="lec-nav">
+    ${prev?`<button class="btn" data-go="${prev.id}">← ${esc(prev.title)}</button>`:'<span></span>'}
+    ${next?`<button class="btn primary" data-go="${next.id}">${esc(next.title)} →</button>`:'<span></span>'}
+  </div>`;
+  main.innerHTML=html;
+  wireQuestions();
+}
+function renderReview(){
+  const main=document.getElementById("main");
+  const wrong=allQuestions().filter(x=>state.progress[x.q.id]&&!state.progress[x.q.id].correct);
+  let html=`<div class="lec-head"><span class="lec-tag review">Review</span>
+    <h2>Review Incorrect</h2><p class="blurb">${wrong.length} question${wrong.length===1?'':'s'} you missed. Answer again to clear them — correct answers update your stats.</p></div>`;
+  if(!wrong.length){
+    html+=`<div class="q"><div class="q-stem">🦴 Nothing to review — no incorrect answers yet. Go get some questions wrong (or right)!</div></div>`;
+  }else{
+    wrong.forEach(x=>{
+      const oi=x.lec.objectives.indexOf(x.obj);
+      const qi=x.obj.questions.indexOf(x.q);
+      html+=`<div style="font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 2px 4px;font-weight:700;">${esc(x.lec.title)}</div>`;
+      html+=questionHTML(x.lec,oi,qi,x.q);
+    });
+  }
+  main.innerHTML=html;
+  wireQuestions();
+}
+function wireQuestions(){
+  document.querySelectorAll(".opt:not([disabled])").forEach(btn=>{
+    btn.onclick=ev=>{
+      const card=btn.closest(".q");const qid=card.dataset.qid;
+      answer(qid, parseInt(btn.dataset.opt,10), ev);
+    };
+  });
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{current=b.dataset.go;reviewMode=false;renderAll();window.scrollTo({top:0,behavior:'smooth'});});
+  document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
+  document.querySelectorAll(".q.answered-correct .exp:not(.show)").forEach(exp=>{
+    const card=exp.closest(".q");
+    card.style.cursor="pointer";
+    card.onclick=ev=>{ if(ev.target.closest(".opt")||ev.target.closest(".q-edit"))return;
+      exp.classList.add("show"); const v=exp.querySelector(".verdict"); if(v)v.textContent="Correct"; card.style.cursor="default"; };
+  });
+}
+
+/* ---------- answering ---------- */
+function findQ(qid){
+  for(const lec of DATA.lectures)for(const o of lec.objectives)for(const q of o.questions)
+    if(q.id===qid)return q;
+  return null;
+}
+function answer(qid,chosen,ev){
+  if(state.progress[qid])return;
+  const q=findQ(qid);if(!q)return;
+  const correct = chosen===q.ans;
+  state.progress[qid]={chosen,correct,t:Date.now()};
+  if(correct){
+    const pts=POINTS[q.diff]||10;
+    state.score+=pts;state.pointsToday+=pts;
+    state.streak+=1;state.bestStreak=Math.max(state.bestStreak,state.streak);
+    if(state.streak%5===0 && state.lives<5){state.lives++;toast("🦴 +1 life — 5 in a row!","gold");}
+    popPoints(ev,"+"+pts);
+  }else{
+    state.streak=0;
+    if(state.lives>0)state.lives--;
+  }
+  checkAchievements();
+  save();
+  // re-render just this card + stats + sidebar
+  rerenderCard(qid);
+  renderStats();renderSidebar();renderAchievements();
+}
+function rerenderCard(qid){
+  const card=document.getElementById("qc-"+qid);
+  if(!card)return;
+  // locate question + indices
+  let found=null;
+  DATA.lectures.forEach(lec=>lec.objectives.forEach((o,oi)=>o.questions.forEach((q,qi)=>{if(q.id===qid)found={lec,oi,qi,q};})));
+  if(!found)return;
+  const tmp=document.createElement("div");
+  tmp.innerHTML=questionHTML(found.lec,found.oi,found.qi,found.q);
+  card.replaceWith(tmp.firstElementChild);
+  wireQuestions();
+}
+function popPoints(ev,txt){
+  if(!ev)return;
+  const el=document.createElement("div");el.className="points-pop";el.textContent=txt;
+  el.style.left=(ev.clientX-10)+"px";el.style.top=(ev.clientY-10)+"px";
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1000);
+}
+
+/* ---------- toast ---------- */
+function toast(msg,kind){
+  const w=document.getElementById("toast-wrap");
+  const t=document.createElement("div");t.className="toast"+(kind?" "+kind:"");
+  t.innerHTML=`<span>${msg}</span>`;
+  w.appendChild(t);setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .4s";setTimeout(()=>t.remove(),400);},2600);
+}
+
+/* ---------- edit / add ---------- */
+const modal=document.getElementById("modal");
+function fillLecSelect(sel){
+  sel.innerHTML=DATA.lectures.map(l=>`<option value="${l.id}">${l.num}. ${esc(l.title)}</option>`).join("");
+}
+function fillObjSelect(lecId,objSel,selectedIdx){
+  const lec=lecById(lecId);
+  objSel.innerHTML=lec.objectives.map((o,i)=>`<option value="${i}">${i+1}. ${esc(o.text.slice(0,60))}${o.text.length>60?'…':''}</option>`).join("");
+  if(selectedIdx!=null)objSel.value=selectedIdx;
+}
+let editOpts=[]; let editCorrect=0;
+function renderEditOpts(){
+  const box=document.getElementById("m-opts");
+  box.innerHTML=editOpts.map((o,i)=>`<div class="opt-edit">
+    <input type="radio" name="m-correct" ${i===editCorrect?'checked':''} data-c="${i}">
+    <input type="text" value="${escAttr(o)}" data-o="${i}" placeholder="Option ${String.fromCharCode(65+i)}">
+    <button class="btn" data-del="${i}" style="padding:6px 9px;">✕</button></div>`).join("");
+  box.querySelectorAll("[data-o]").forEach(inp=>inp.oninput=()=>editOpts[+inp.dataset.o]=inp.value);
+  box.querySelectorAll("[data-c]").forEach(r=>r.onchange=()=>editCorrect=+r.dataset.c);
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;if(editOpts.length<=2){toast("Need at least 2 options");return;}editOpts.splice(i,1);if(editCorrect>=editOpts.length)editCorrect=0;renderEditOpts();});
+}
+function openEdit(token){
+  const [lecId,oi,qi]=token.split("|");
+  const lec=lecById(lecId);const q=lec.objectives[+oi].questions[+qi];
+  editTarget={lecId,oi:+oi,qi:+qi,qid:q.id};
+  document.getElementById("modal-title").textContent="Edit question";
+  document.getElementById("m-delete").style.display="inline-block";
+  fillLecSelect(document.getElementById("m-lec"));
+  document.getElementById("m-lec").value=lecId;
+  fillObjSelect(lecId,document.getElementById("m-obj"),+oi);
+  document.getElementById("m-stem").value=q.stem;
+  document.getElementById("m-diff").value=q.diff;
+  document.getElementById("m-exp").value=q.exp;
+  editOpts=q.opts.slice();editCorrect=q.ans;renderEditOpts();
+  modal.classList.add("show");
+}
+function openAdd(){
+  editTarget=null;
+  document.getElementById("modal-title").textContent="Add question";
+  document.getElementById("m-delete").style.display="none";
+  fillLecSelect(document.getElementById("m-lec"));
+  document.getElementById("m-lec").value=reviewMode?DATA.lectures[0].id:current;
+  fillObjSelect(document.getElementById("m-lec").value,document.getElementById("m-obj"),0);
+  document.getElementById("m-stem").value="";
+  document.getElementById("m-diff").value="Foundational";
+  document.getElementById("m-exp").value="";
+  editOpts=["",""];editCorrect=0;renderEditOpts();
+  modal.classList.add("show");
+}
+document.getElementById("m-lec").onchange=e=>fillObjSelect(e.target.value,document.getElementById("m-obj"),0);
+document.getElementById("m-add-opt").onclick=()=>{if(editOpts.length>=6){toast("Max 6 options");return;}editOpts.push("");renderEditOpts();};
+document.getElementById("m-save").onclick=()=>{
+  const stem=document.getElementById("m-stem").value.trim();
+  const exp=document.getElementById("m-exp").value.trim();
+  const diff=document.getElementById("m-diff").value;
+  const lecId=document.getElementById("m-lec").value;
+  const oi=+document.getElementById("m-obj").value;
+  const opts=editOpts.map(o=>o.trim()).filter(o=>o.length);
+  if(!stem){toast("Enter a question stem");return;}
+  if(opts.length<2){toast("Need at least 2 non-empty options");return;}
+  if(editCorrect>=opts.length)editCorrect=0;
+  if(editTarget){
+    const lec=lecById(editTarget.lecId);
+    const q=lec.objectives[editTarget.oi].questions[editTarget.qi];
+    // if lecture/objective changed, move it
+    if(editTarget.lecId!==lecId || editTarget.oi!==oi){
+      lec.objectives[editTarget.oi].questions.splice(editTarget.qi,1);
+      Object.assign(q,{stem,opts,ans:editCorrect,exp,diff});
+      lecById(lecId).objectives[oi].questions.push(q);
+    }else{
+      Object.assign(q,{stem,opts,ans:editCorrect,exp,diff});
+    }
+    toast("✓ Question updated");
+  }else{
+    const id="C"+Date.now().toString(36);
+    lecById(lecId).objectives[oi].questions.push({id,stem,opts,ans:editCorrect,exp,diff});
+    toast("✓ Question added");
+  }
+  snapshotCustom();save();
+  modal.classList.remove("show");renderAll();
+};
+document.getElementById("m-delete").onclick=()=>{
+  if(!editTarget)return;
+  if(!confirm("Delete this question permanently?"))return;
+  const lec=lecById(editTarget.lecId);
+  const q=lec.objectives[editTarget.oi].questions[editTarget.qi];
+  delete state.progress[q.id];
+  lec.objectives[editTarget.oi].questions.splice(editTarget.qi,1);
+  snapshotCustom();save();
+  modal.classList.remove("show");renderAll();toast("Question deleted");
+};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>modal.classList.remove("show"));
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("show");};
+
+/* ---------- download / reset ---------- */
+document.getElementById("download-btn").onclick=()=>{
+  const payload={exportedAt:new Date().toISOString(),score:state.score,
+    answered:computeStats().answered,correct:computeStats().correct,
+    data:DATA,progress:state.progress};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="opp3-quiz-progress.json";a.click();URL.revokeObjectURL(a.href);
+  toast("⤓ Progress downloaded");
+};
+const rmodal=document.getElementById("reset-modal");
+document.getElementById("reset-btn").onclick=()=>rmodal.classList.add("show");
+document.querySelectorAll("[data-rclose]").forEach(b=>b.onclick=()=>rmodal.classList.remove("show"));
+rmodal.onclick=e=>{if(e.target===rmodal)rmodal.classList.remove("show");};
+document.getElementById("reset-progress").onclick=()=>{
+  const c=state.custom;state=blankState();state.custom=c;state.fast=document.getElementById("fast").checked;
+  save();rmodal.classList.remove("show");renderAll();toast("Progress & score reset");
+};
+document.getElementById("reset-all").onclick=()=>{
+  state=blankState();DATA=JSON.parse(JSON.stringify(window.QUIZ_DATA));
+  save();rmodal.classList.remove("show");current=DATA.lectures[0].id;renderAll();toast("Everything reset");
+};
+
+/* ---------- controls ---------- */
+document.getElementById("fast").checked=state.fast;
+document.getElementById("fast").onchange=e=>{state.fast=e.target.checked;save();
+  toast(state.fast?"⚡ Fast mode on — explanations stay collapsed until you tap":"Fast mode off");};
+document.getElementById("review-btn").onclick=()=>{reviewMode=true;renderAll();window.scrollTo({top:0,behavior:'smooth'});};
+document.getElementById("edit-toggle").onclick=()=>{editMode=!editMode;
+  document.getElementById("edit-toggle").classList.toggle("primary",editMode);
+  renderAll();toast(editMode?"✎ Edit mode on":"Edit mode off");};
+document.getElementById("add-q-btn").onclick=openAdd;
+document.getElementById("dyk-next").onclick=()=>{dykIdx=(dykIdx+1)%DYK.length;renderDYK();};
+
+/* keyboard */
+document.addEventListener("keydown",e=>{
+  if(modal.classList.contains("show")||rmodal.classList.contains("show"))return;
+  if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")return;
+  const idx=DATA.lectures.findIndex(l=>l.id===current);
+  if(e.key==="ArrowRight"&&!reviewMode&&idx<DATA.lectures.length-1){current=DATA.lectures[idx+1].id;renderAll();}
+  if(e.key==="ArrowLeft"&&!reviewMode&&idx>0){current=DATA.lectures[idx-1].id;renderAll();}
+});
+
+/* ---------- util ---------- */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function escAttr(s){return esc(s).replace(/"/g,'&quot;');}
+
+/* ---------- boot ---------- */
+function renderAll(){renderSidebar();renderMain();renderStats();renderAchievements();renderDYK();}
+document.getElementById("sub-line").textContent=DATA.subtitle||"";
+renderAll();
+checkAchievements();renderStats();renderAchievements();
+</script>
+</body>
+</html>
