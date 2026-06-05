@@ -2966,16 +2966,36 @@ window.QUIZ_DATA = {
   },
 
   ]
-  function shuffleAnswersForAllQuestions(lectures) {
+};
+  function seededRandom(seed) {
+  let h = 2166136261;
+
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+  }
+
+  return function () {
+    h += h << 13;
+    h ^= h >>> 7;
+    h += h << 3;
+    h ^= h >>> 17;
+    h += h << 5;
+    return ((h >>> 0) / 4294967295);
+  };
+}
+
+function shuffleAnswersForAllQuestions(lectures) {
   lectures.forEach(lecture => {
     lecture.objectives.forEach(objective => {
       objective.questions.forEach(question => {
         const correctAnswerText = question.opts[question.ans];
-
         const shuffledOptions = [...question.opts];
 
+        const random = seededRandom(question.id);
+
         for (let i = shuffledOptions.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
+          const j = Math.floor(random() * (i + 1));
           [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
         }
 
@@ -2987,8 +3007,6 @@ window.QUIZ_DATA = {
 }
 
 shuffleAnswersForAllQuestions(lectures);
-};
-
 </script>
 
 <script>
