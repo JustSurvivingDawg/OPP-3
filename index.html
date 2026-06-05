@@ -2964,7 +2964,49 @@ window.QUIZ_DATA = {
       }
     ]
   },
-    /* SHUFFLE FUNCTION HERE */
+  ]
+};
+
+/* ============================================================
+   OPP III Quiz Engine
+   ============================================================ */
+
+const STORE_KEY = "opp3_quiz_v1";
+const POINTS = {Foundational:10,"Multi-step":15,"High-yield":20};
+const DYK = [
+  "Name a rib dysfunction for its position of EASE: pain on inhalation = an exhalation dysfunction.",
+  "BITE rule — treat the Bottom rib first for Inhaled dysfunctions and the Top rib first for Exhaled.",
+  "Carpal tunnel SPARES the thenar eminence; proximal (pronator teres) median entrapment involves it.",
+  "OA = Opposite Always: at C0–C1 sidebending and rotation occur in opposite directions.",
+  "Neurapraxia (myelin) → axonotmesis (myelin+axon, regrows) → neurotmesis (+connective tissue, no regrowth).",
+  "Cervical facets are BUM, thoracic BUL, lumbar BM — orientation sets each region's preferred motion.",
+  "CRPS II = causalgia (major nerve damage); CRPS I = RSD (no major nerve damage).",
+  "Needle EMG is the gold standard for radiculopathy; MRI is the imaging of choice.",
+  "Saturday-night palsy = radial nerve at the spiral groove → wrist drop.",
+  "Standing flexion test screens the innominate; seated flexion test screens the sacrum.",
+  "Peroneal nerve injury → foot drop → trouble HEEL-walking; tibial injury → trouble TOE-walking.",
+  "Kidney Chapman point: ~1 inch superior + 1 inch lateral to the umbilicus.",
+  "Fryette Type I = neutral group, SB & rotation opposite; Type II = single segment, SB & rotation same side.",
+  "Rule of Threes: T7–T9 spinous processes sit one full segment below their transverse processes.",
+  "Serratus anterior is the muscle-energy lever for exhalation dysfunctions of ribs 6–10.",
+  "Osteoporosis is an ABSOLUTE contraindication to HVLA.",
+  "Myelopathy = UMN signs: broad-based unsteady gait and a positive Babinski.",
+  "Isthmic (Type II) spondylolisthesis = pars interarticularis defect, common in young athletes.",
+  "A positive (non-springing) sacral spring test means a posterior base → backward torsion or bilateral extension.",
+  "Meralgia paresthetica = lateral femoral cutaneous nerve entrapped under the inguinal ligament."
+];
+const ACHIEVEMENTS = [
+  {id:"first",ico:"🩺",t:"First Incision",d:"Answer your first question",test:s=>s.answered>=1},
+  {id:"ten",ico:"🦴",t:"Bonesetter",d:"Get 10 questions correct",test:s=>s.correct>=10},
+  {id:"streak5",ico:"🔥",t:"On a Roll",d:"5-answer streak",test:s=>s.bestStreak>=5},
+  {id:"streak10",ico:"⚡",t:"Unstoppable",d:"10-answer streak",test:s=>s.bestStreak>=10},
+  {id:"fifty",ico:"📚",t:"Half-Cadaver",d:"Answer 50 questions",test:s=>s.answered>=50},
+  {id:"perfectlec",ico:"🎯",t:"Clean Sweep",d:"Finish a lecture with 100% correct",test:s=>s.perfectLecture},
+  {id:"newdone",ico:"🧠",t:"New Material Master",d:"Answer every new-lecture question",test:s=>s.newDone},
+  {id:"hundred",ico:"💯",t:"Centurion",d:"Answer 100 questions",test:s=>s.answered>=100},
+  {id:"reviewdone",ico:"🏛️",t:"Comprehensive",d:"Answer every review question",test:s=>s.reviewDone},
+  {id:"all",ico:"👑",t:"Board Ready",d:"Answer all 190 questions",test:s=>s.answered>=s.total}
+];
 function seededRandom(seed) {
   let h = 2166136261;
 
@@ -3004,53 +3046,8 @@ function shuffleAnswersForAllQuestions(lectures) {
   });
 }
 
-shuffleAnswersForAllQuestions(lectures);
-
-  ]
-};
-
-
-<script>
-/* ============================================================
-   OPP III Quiz Engine
-   ============================================================ */
-const STORE_KEY = "opp3_quiz_v1";
-const POINTS = {Foundational:10,"Multi-step":15,"High-yield":20};
-const DYK = [
-  "Name a rib dysfunction for its position of EASE: pain on inhalation = an exhalation dysfunction.",
-  "BITE rule — treat the Bottom rib first for Inhaled dysfunctions and the Top rib first for Exhaled.",
-  "Carpal tunnel SPARES the thenar eminence; proximal (pronator teres) median entrapment involves it.",
-  "OA = Opposite Always: at C0–C1 sidebending and rotation occur in opposite directions.",
-  "Neurapraxia (myelin) → axonotmesis (myelin+axon, regrows) → neurotmesis (+connective tissue, no regrowth).",
-  "Cervical facets are BUM, thoracic BUL, lumbar BM — orientation sets each region's preferred motion.",
-  "CRPS II = causalgia (major nerve damage); CRPS I = RSD (no major nerve damage).",
-  "Needle EMG is the gold standard for radiculopathy; MRI is the imaging of choice.",
-  "Saturday-night palsy = radial nerve at the spiral groove → wrist drop.",
-  "Standing flexion test screens the innominate; seated flexion test screens the sacrum.",
-  "Peroneal nerve injury → foot drop → trouble HEEL-walking; tibial injury → trouble TOE-walking.",
-  "Kidney Chapman point: ~1 inch superior + 1 inch lateral to the umbilicus.",
-  "Fryette Type I = neutral group, SB & rotation opposite; Type II = single segment, SB & rotation same side.",
-  "Rule of Threes: T7–T9 spinous processes sit one full segment below their transverse processes.",
-  "Serratus anterior is the muscle-energy lever for exhalation dysfunctions of ribs 6–10.",
-  "Osteoporosis is an ABSOLUTE contraindication to HVLA.",
-  "Myelopathy = UMN signs: broad-based unsteady gait and a positive Babinski.",
-  "Isthmic (Type II) spondylolisthesis = pars interarticularis defect, common in young athletes.",
-  "A positive (non-springing) sacral spring test means a posterior base → backward torsion or bilateral extension.",
-  "Meralgia paresthetica = lateral femoral cutaneous nerve entrapped under the inguinal ligament."
-];
-const ACHIEVEMENTS = [
-  {id:"first",ico:"🩺",t:"First Incision",d:"Answer your first question",test:s=>s.answered>=1},
-  {id:"ten",ico:"🦴",t:"Bonesetter",d:"Get 10 questions correct",test:s=>s.correct>=10},
-  {id:"streak5",ico:"🔥",t:"On a Roll",d:"5-answer streak",test:s=>s.bestStreak>=5},
-  {id:"streak10",ico:"⚡",t:"Unstoppable",d:"10-answer streak",test:s=>s.bestStreak>=10},
-  {id:"fifty",ico:"📚",t:"Half-Cadaver",d:"Answer 50 questions",test:s=>s.answered>=50},
-  {id:"perfectlec",ico:"🎯",t:"Clean Sweep",d:"Finish a lecture with 100% correct",test:s=>s.perfectLecture},
-  {id:"newdone",ico:"🧠",t:"New Material Master",d:"Answer every new-lecture question",test:s=>s.newDone},
-  {id:"hundred",ico:"💯",t:"Centurion",d:"Answer 100 questions",test:s=>s.answered>=100},
-  {id:"reviewdone",ico:"🏛️",t:"Comprehensive",d:"Answer every review question",test:s=>s.reviewDone},
-  {id:"all",ico:"👑",t:"Board Ready",d:"Answer all 190 questions",test:s=>s.answered>=s.total}
-];
-
+shuffleAnswersForAllQuestions(window.QUIZ_DATA.lectures);
+  
 let DATA = JSON.parse(JSON.stringify(window.QUIZ_DATA));
 let state = load();
 let current = DATA.lectures[0].id;
