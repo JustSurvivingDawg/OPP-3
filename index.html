@@ -2966,6 +2966,27 @@ window.QUIZ_DATA = {
   },
 
   ]
+  function shuffleAnswersForAllQuestions(lectures) {
+  lectures.forEach(lecture => {
+    lecture.objectives.forEach(objective => {
+      objective.questions.forEach(question => {
+        const correctAnswerText = question.opts[question.ans];
+
+        const shuffledOptions = [...question.opts];
+
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+
+        question.opts = shuffledOptions;
+        question.ans = shuffledOptions.indexOf(correctAnswerText);
+      });
+    });
+  });
+}
+
+shuffleAnswersForAllQuestions(lectures);
 };
 
 </script>
