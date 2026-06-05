@@ -2964,10 +2964,8 @@ window.QUIZ_DATA = {
       }
     ]
   },
-
-  ]
-};
-  function seededRandom(seed) {
+    /* SHUFFLE FUNCTION HERE */
+function seededRandom(seed) {
   let h = 2166136261;
 
   for (let i = 0; i < seed.length; i++) {
@@ -3007,7 +3005,10 @@ function shuffleAnswersForAllQuestions(lectures) {
 }
 
 shuffleAnswersForAllQuestions(lectures);
-</script>
+
+  ]
+};
+
 
 <script>
 /* ============================================================
